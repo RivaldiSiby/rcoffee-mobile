@@ -31,12 +31,14 @@ const Signup = () => {
         <View>
           <View style={styles.sectionForm}>
             <TextInput
+              placeholderTextColor={'white'}
               placeholder="Enter your email adress"
               style={styles.inputForm}></TextInput>
           </View>
           <View style={styles.sectionForm}>
             <View style={styles.inputPass}>
               <TextInput
+                placeholderTextColor={'white'}
                 secureTextEntry={isShow === false ? true : false}
                 placeholder="Enter your password"
                 style={styles.inputFormPass}></TextInput>
@@ -53,6 +55,7 @@ const Signup = () => {
           </View>
           <View style={styles.sectionForm}>
             <TextInput
+              placeholderTextColor={'white'}
               placeholder="Enter your phone number"
               style={styles.inputForm}></TextInput>
           </View>
