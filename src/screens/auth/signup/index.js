@@ -17,10 +17,35 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import styles from '../style';
+import {useDispatch, useSelector} from 'react-redux';
+import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
+import {signupHandler} from '../../../modules/auth/signupHandler';
 
-const Signup = () => {
-  //   const isDarkMode = useColorScheme() === 'dark';
+const Signup = ({navigation}) => {
   const [isShow, setIsShow] = useState(false);
+  const dispatch = useDispatch();
+  const Load = useSelector(state => state.loading.status);
+  const [Email, setEmail] = useState('');
+  const [Pass, setPass] = useState('');
+  const [Phone, setPhone] = useState('');
+
+  const regisHandler = async () => {
+    try {
+      dispatch(isLoading());
+      const payload = {
+        email: Email,
+        password: Pass,
+        phone: Phone,
+      };
+      await signupHandler(payload);
+      dispatch(doneLoading());
+      navigation.navigate('Login');
+    } catch (error) {
+      dispatch(doneLoading());
+      console.log(error.response.data.message);
+    }
+  };
+  // regis
   return (
     <View>
       <ImageBackground
@@ -33,6 +58,8 @@ const Signup = () => {
             <TextInput
               placeholderTextColor={'white'}
               placeholder="Enter your email adress"
+              value={Email}
+              onChangeText={Email => setEmail(Email)}
               style={styles.inputForm}></TextInput>
           </View>
           <View style={styles.sectionForm}>
@@ -41,6 +68,8 @@ const Signup = () => {
                 placeholderTextColor={'white'}
                 secureTextEntry={isShow === false ? true : false}
                 placeholder="Enter your password"
+                value={Pass}
+                onChangeText={Pass => setPass(Pass)}
                 style={styles.inputFormPass}></TextInput>
               <TouchableOpacity
                 onPress={() =>
@@ -56,11 +85,15 @@ const Signup = () => {
           <View style={styles.sectionForm}>
             <TextInput
               placeholderTextColor={'white'}
+              value={Phone}
+              onChangeText={Phone => setPhone(Phone)}
               placeholder="Enter your phone number"
               style={styles.inputForm}></TextInput>
           </View>
           <View style={styles.sectionForm}>
-            <TouchableOpacity style={styles.btnRegis}>
+            <TouchableOpacity
+              onPress={() => regisHandler()}
+              style={styles.btnRegis}>
               <Text style={styles.textBtnRegis}>Create Account</Text>
             </TouchableOpacity>
           </View>

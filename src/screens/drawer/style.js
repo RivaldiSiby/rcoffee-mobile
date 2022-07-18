@@ -8,6 +8,8 @@ export default StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    zIndex: 10,
+    position: 'relative',
   },
   profileContainer: {
     backgroundColor: '#6A4029',

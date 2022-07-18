@@ -29,7 +29,6 @@ function DrawerDashboard({navigation}) {
 
         // logout API
         const refreshToken = login.auth['refreshkey'];
-        console.log(refreshToken);
         await LogoutHandler(refreshToken);
         // clear storage
         dispatch(failLogin());
@@ -54,7 +53,7 @@ function DrawerDashboard({navigation}) {
               source={
                 user.img === null
                   ? require('../../assets/img/auth/profil.png')
-                  : user.img
+                  : {uri: user.img}
               }
               style={style.profpict}
             />
@@ -66,31 +65,38 @@ function DrawerDashboard({navigation}) {
               <View style={style.menuList}>
                 <Ionicons
                   name="person-circle-outline"
-                  size={35}
+                  size={22}
                   color="#6A4029"
                 />
                 <Text style={style.menuText}>Edit Profile</Text>
               </View>
               <View style={style.menuList}>
-                <Material name="cart-arrow-down" size={35} color="#6A4029" />
+                <Material name="cart-arrow-down" size={22} color="#6A4029" />
                 <Text style={style.menuText}>Orders</Text>
               </View>
               <View style={style.menuList}>
-                <Ionicons name="fast-food-outline" size={35} color="#6A4029" />
+                <Ionicons name="fast-food-outline" size={22} color="#6A4029" />
                 <Text style={style.menuText}>All menu</Text>
               </View>
               <View style={style.menuList}>
-                <Ionicons name="newspaper-outline" size={35} color="#6A4029" />
+                <Ionicons name="newspaper-outline" size={22} color="#6A4029" />
                 <Text style={style.menuText}>Privacy policy</Text>
               </View>
               <View style={style.menuList}>
-                <Awesome5 name="shield-alt" size={35} color="#6A4029" />
+                <Awesome5 name="shield-alt" size={22} color="#6A4029" />
                 <Text style={style.menuText}>Security</Text>
               </View>
             </View>
             <View style={style.menuList}>
               <TouchableOpacity onPress={() => logoutUserHandler()}>
-                <Text style={style.menuTextEnd}>Logout</Text>
+                <Text style={style.menuTextEnd}>
+                  Sign-Out
+                  <Ionicons
+                    name="arrow-forward-outline"
+                    size={22}
+                    color="#6A4029"
+                  />
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

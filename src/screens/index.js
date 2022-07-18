@@ -12,6 +12,11 @@ import Started from './auth/started';
 import Forgotpass from './auth/forgotpass';
 import Home from './dashboard/home';
 import DrawerDashboard from './drawer/Dashboard.js';
+import Product from './dashboard/products';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Material from 'react-native-vector-icons/MaterialCommunityIcons';
+import Awesome5 from 'react-native-vector-icons/FontAwesome5';
+import Detail from './dashboard/detail';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -47,15 +52,23 @@ function HomeNav() {
               shadowOpacity: 0.4,
               shadowRadius: 2,
               elevation: 10,
+              zIndex: 10,
+              position: 'absolute',
             },
             overlayColor: 'rgba(242, 242, 242, 0.5)',
             drawerInactiveTintColor: '#6A4029',
             drawerActiveTintColor: '#6A4029',
             headerRight: () => (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image
-                  style={{marginRight: '15%', width: 24, height: 24}}
-                  source={cart}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Ionicons
+                  style={{marginRight: 20}}
+                  name="cart-outline"
+                  size={24}
+                  color="rgba(0, 0, 0, 0.5)"
                 />
               </View>
             ),
@@ -93,10 +106,10 @@ function Router() {
     <>
       <StatusBar barStyle={'light-content'} />
       <Stack.Navigator
+        useLegacyImplementation={true}
         screenOptions={{
-          headerTitle: '',
           headerStyle: {
-            backgroundColor: 'white',
+            backgroundColor: '#F2F2F2',
           },
         }}>
         <Stack.Screen
@@ -139,6 +152,71 @@ function Router() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="Product"
+          component={Product}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Products
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={Detail}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Ionicons
+                  style={{marginRight: 20}}
+                  name="cart-outline"
+                  size={24}
+                  color="black"
+                />
+              </View>
+            ),
+          }}
+        />
+
         <Stack.Screen
           name="Dashboard"
           component={BottomNav}
