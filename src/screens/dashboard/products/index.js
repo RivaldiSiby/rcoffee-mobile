@@ -18,6 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {searchProducts} from '../../../modules/products/searchProducts';
 import SelectDropdown from 'react-native-select-dropdown';
 import {getProductsAll} from '../../../modules/products/getProductsAll';
+
 const scroll = React.createRef();
 
 const Product = ({route, navigation}) => {
@@ -203,14 +204,15 @@ const Product = ({route, navigation}) => {
   const searchHandler = async () => {
     try {
       dispatch(isLoading());
-      const result = await searchProducts(search, categoryValue);
-      setUrl(
-        `/product?limit=12${
-          categoryValue === '' || categoryValue === 'all'
-            ? ''
-            : `&category=${category}`
-        }&name=${search}`,
-      );
+      setProduct([]);
+      setFavorite(false);
+      setPromo(false);
+      setCoffee(false);
+      setNoncoffee(false);
+      setCategoryValue('all');
+      setAll(true);
+      const result = await searchProducts(search);
+      setUrl(`/product?limit=12&name=${search}`);
       if (result.data.meta.totalPage > 1) {
         let number = [];
         for (let i = 1; i <= result.data.meta.totalPage; i++) {
@@ -221,12 +223,7 @@ const Product = ({route, navigation}) => {
       }
       setProduct(result.data.data);
       setPagination(result.data.meta);
-      setFavorite(false);
-      setPromo(false);
-      setCoffee(false);
-      setNoncoffee(false);
-      setCategoryValue('all');
-      setAll(true);
+
       dispatch(doneLoading());
     } catch (error) {
       console.log(error);
@@ -468,97 +465,117 @@ const Product = ({route, navigation}) => {
                 <Text style={{fontWeight: '400', fontSize: 18}}>Sorting</Text>
               </TouchableOpacity>
             </View>
-            <View style={styles.boxProduct}>
-              <ScrollView vertical>
-                <View style={styles.listItemProduct}>
-                  {product.map(list => (
-                    <>
-                      <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate('Detail', {
-                            id: list.id,
-                            size: list.size,
-                          })
-                        }
-                        style={styles.itemProduct}>
-                        <Image
-                          style={styles.itemImgProduct}
-                          source={{
-                            uri: list.img,
-                          }}
-                        />
-                        <Text style={styles.itemText}>{list.name}</Text>
-                        <Text style={{color: 'black'}}>{list.size}</Text>
-                        <Text style={styles.itemPrice}>IDR {list.price}</Text>
-                      </TouchableOpacity>
-                    </>
-                  ))}
-                </View>
-              </ScrollView>
-            </View>
-            {pagination.totalPage > 1 ? (
+            {product.length > 0 ? (
               <>
-                <View style={styles.boxPagination}>
-                  {pagination.prev !== undefined ? (
-                    <TouchableOpacity
-                      onPress={() => paginationHandler(pagination.prev)}
-                      style={styles.bulletBtn}>
-                      <Text style={styles.bulletTextBtn}>Prev</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    ''
-                  )}
-                  {paginationNumber.map(page =>
-                    parseInt(pagination.page) === page ? (
-                      <>
-                        <TouchableOpacity
-                          onPress={() =>
-                            paginationHandler(
-                              `/product?limit=12&page=${page}${
-                                (categoryValue === '') |
-                                (categoryValue === 'all')
-                                  ? ''
-                                  : '&category=' + categoryValue
-                              }`,
-                            )
-                          }
-                          style={styles.bulletActive}>
-                          <Text style={styles.bulletTextActive}>{page}</Text>
-                        </TouchableOpacity>
-                      </>
-                    ) : (
-                      <>
-                        <TouchableOpacity
-                          style={styles.bullet}
-                          onPress={() =>
-                            paginationHandler(
-                              `/product?limit=12&page=${page}${
-                                (categoryValue === '') |
-                                (categoryValue === 'all')
-                                  ? ''
-                                  : '&category=' + categoryValue
-                              }`,
-                            )
-                          }>
-                          <Text style={styles.bulletText}>{page}</Text>
-                        </TouchableOpacity>
-                      </>
-                    ),
-                  )}
-
-                  {pagination.next !== undefined ? (
-                    <TouchableOpacity
-                      onPress={() => paginationHandler(pagination.next)}
-                      style={styles.bulletBtn}>
-                      <Text style={styles.bulletTextBtn}>Next</Text>
-                    </TouchableOpacity>
-                  ) : (
-                    ''
-                  )}
+                <View style={styles.boxProduct}>
+                  <ScrollView vertical>
+                    <View style={styles.listItemProduct}>
+                      {product.map(list => (
+                        <>
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.navigate('Detail', {
+                                id: list.id,
+                                size: list.size,
+                              })
+                            }
+                            style={styles.itemProduct}>
+                            <Image
+                              style={styles.itemImgProduct}
+                              source={{
+                                uri: list.img,
+                              }}
+                            />
+                            <Text style={styles.itemText}>{list.name}</Text>
+                            <Text style={{color: 'black'}}>{list.size}</Text>
+                            <Text style={styles.itemPrice}>
+                              IDR {list.price}
+                            </Text>
+                          </TouchableOpacity>
+                        </>
+                      ))}
+                    </View>
+                  </ScrollView>
                 </View>
+                {pagination.totalPage > 1 ? (
+                  <>
+                    <View style={styles.boxPagination}>
+                      {pagination.prev !== undefined ? (
+                        <TouchableOpacity
+                          onPress={() => paginationHandler(pagination.prev)}
+                          style={styles.bulletBtn}>
+                          <Text style={styles.bulletTextBtn}>Prev</Text>
+                        </TouchableOpacity>
+                      ) : (
+                        ''
+                      )}
+                      {paginationNumber.map(page =>
+                        parseInt(pagination.page) === page ? (
+                          <>
+                            <TouchableOpacity
+                              onPress={() =>
+                                paginationHandler(
+                                  `/product?limit=12&page=${page}${
+                                    (categoryValue === '') |
+                                    (categoryValue === 'all')
+                                      ? ''
+                                      : '&category=' + categoryValue
+                                  }`,
+                                )
+                              }
+                              style={styles.bulletActive}>
+                              <Text style={styles.bulletTextActive}>
+                                {page}
+                              </Text>
+                            </TouchableOpacity>
+                          </>
+                        ) : (
+                          <>
+                            <TouchableOpacity
+                              style={styles.bullet}
+                              onPress={() =>
+                                paginationHandler(
+                                  `/product?limit=12&page=${page}${
+                                    (categoryValue === '') |
+                                    (categoryValue === 'all')
+                                      ? ''
+                                      : '&category=' + categoryValue
+                                  }`,
+                                )
+                              }>
+                              <Text style={styles.bulletText}>{page}</Text>
+                            </TouchableOpacity>
+                          </>
+                        ),
+                      )}
+
+                      {pagination.next !== undefined ? (
+                        <TouchableOpacity
+                          onPress={() => paginationHandler(pagination.next)}
+                          style={styles.bulletBtn}>
+                          <Text style={styles.bulletTextBtn}>Next</Text>
+                        </TouchableOpacity>
+                      ) : (
+                        ''
+                      )}
+                    </View>
+                  </>
+                ) : (
+                  ''
+                )}
               </>
             ) : (
-              ''
+              <>
+                <View style={{alignItems: 'center', marginTop: 20}}>
+                  <Text style={{color: 'black', fontWeight: '900'}}>
+                    Products Not Found
+                  </Text>
+                  <Image
+                    style={{width: '70%', height: 250}}
+                    source={require('../../../assets/img/pagenotfound.png')}
+                  />
+                </View>
+              </>
             )}
           </ScrollView>
         </>

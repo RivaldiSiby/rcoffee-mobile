@@ -7,7 +7,7 @@ import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Loading from '../../loading';
 import {addChart} from '../../../redux/actionCreator/chart';
 
-const Detail = ({route}) => {
+const Detail = ({route, navigation}) => {
   // data
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
@@ -78,6 +78,17 @@ const Detail = ({route}) => {
       }
     }
   };
+  const sizeHandler = size => {
+    products.map(product =>
+      product.size === size ? setProductDetail(product) : '',
+    );
+
+    navigation.navigate('Detail', {
+      id: id,
+      size: size,
+    });
+    setQuantity(1);
+  };
   return (
     <>
       {Load === true && products.length === 0 ? (
@@ -115,13 +126,17 @@ const Detail = ({route}) => {
                 </View>
                 {products.map(product =>
                   product.size === productDetail.size ? (
-                    <TouchableOpacity style={styles.bulletActive}>
+                    <TouchableOpacity
+                      onPress={() => sizeHandler(product.size)}
+                      style={styles.bulletActive}>
                       <Text style={styles.textBulletActive}>
                         {product.size}
                       </Text>
                     </TouchableOpacity>
                   ) : (
-                    <TouchableOpacity style={styles.bullet}>
+                    <TouchableOpacity
+                      onPress={() => sizeHandler(product.size)}
+                      style={styles.bullet}>
                       <Text style={styles.textBullet}>{product.size}</Text>
                     </TouchableOpacity>
                   ),

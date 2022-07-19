@@ -14,8 +14,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../../loading';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {GenerateToken} from '../../../modules/auth/checkAuth';
 
 const Home = ({navigation}) => {
+  const login = useSelector(state => state.login);
   const Load = useSelector(state => state.loading.status);
   const dispatch = useDispatch();
   const [favorite, setFavorite] = useState(true);
@@ -25,6 +27,31 @@ const Home = ({navigation}) => {
   const [food, setFood] = useState(false);
   const [product, setProduct] = useState([]);
   const [categoryKey, setCategoryKey] = useState('favorite');
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        dispatch(isLoading());
+        await GenerateToken(login.auth);
+        dispatch(doneLoading());
+        return;
+      } catch (error) {
+        console.log(error);
+        console.log(error.request.status);
+        dispatch(doneLoading());
+        if (error.request.status !== 400) {
+          if (error.request.status === 401) {
+            dispatch(failLogin());
+            navigation.navigate('Login');
+          }
+          //   const screen = ErrorsHandler(error.request.status);
+          //   console.log(screen);
+          //   navigation.navigate(screen);
+        }
+      }
+    };
+    checkLogin();
+  }, []);
 
   useEffect(() => {
     dispatch(isLoading());
@@ -134,7 +161,7 @@ const Home = ({navigation}) => {
                     Favorite
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                   onPress={() => categoryHandler('promo')}
                   style={
                     promo === true ? styles.listMenuActive : styles.listMenu
@@ -145,7 +172,7 @@ const Home = ({navigation}) => {
                     }>
                     Promo
                   </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                   onPress={() => categoryHandler('coffee')}
                   style={

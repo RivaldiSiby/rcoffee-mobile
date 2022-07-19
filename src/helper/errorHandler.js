@@ -2,17 +2,18 @@
 import {useDispatch} from 'react-redux';
 import {failLogin} from '../redux/actionCreator/login';
 
-export default function ErrorsHandler(status, Navigate) {
+export default function ErrorsHandler(status) {
   const dispatch = useDispatch();
 
   //   auth error
   if (status === 401) {
+    console.log('tes');
     dispatch(failLogin());
-    Navigate('/Login');
+    return 'Login';
   }
   //   forbiden error
   if (status === 403) {
-    Navigate('/Login');
+    return 'Login';
   }
   // notfound error
   //   if (status === 404) {

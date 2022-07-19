@@ -1,6 +1,13 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {Image, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -17,6 +24,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import Awesome5 from 'react-native-vector-icons/FontAwesome5';
 import Detail from './dashboard/detail';
+import Cart from './dashboard/cart';
+import {Link} from '@react-navigation/native';
+import Coupon from './dashboard/coupon';
+import Order404 from './notfound/order';
+import {useSelector} from 'react-redux';
+import Delivery from './dashboard/delivery';
+import Payment from './dashboard/payment';
+import Profile from './dashboard/profile';
+import Splash from './splash/index';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -24,7 +40,9 @@ const Bottom = createBottomTabNavigator();
 
 // auth navigation
 
-function HomeNav() {
+function HomeNav({navigation}) {
+  const cart = useSelector(state => state.chart.chart);
+  const user = useSelector(state => state.user.user);
   return (
     <>
       <Drawer.Navigator
@@ -66,10 +84,34 @@ function HomeNav() {
                 }}>
                 <Ionicons
                   style={{marginRight: 20}}
-                  name="cart-outline"
+                  name="chatbubble-ellipses-outline"
                   size={24}
                   color="rgba(0, 0, 0, 0.5)"
                 />
+                <Link
+                  style={{marginRight: 20}}
+                  to={cart.length === 0 ? '/Order' : '/Cart'}>
+                  <Ionicons
+                    style={{marginRight: 20}}
+                    name="cart-outline"
+                    size={24}
+                    color="rgba(0, 0, 0, 0.5)"
+                  />
+                </Link>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Profile')}
+                  style={{
+                    marginRight: 20,
+                  }}>
+                  <Image
+                    style={{
+                      width: 24,
+                      height: 24,
+                      borderRadius: 50,
+                    }}
+                    source={{uri: user.img}}
+                  />
+                </TouchableOpacity>
               </View>
             ),
           }}
@@ -78,30 +120,10 @@ function HomeNav() {
     </>
   );
 }
-function BottomNav() {
-  return (
-    <>
-      <Bottom.Navigator
-        screenOptions={{
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#F2F2F2',
-          },
-        }}>
-        <Bottom.Screen
-          name="User"
-          component={HomeNav}
-          options={{
-            // swipeEnabled: false,
-            headerShown: false,
-          }}
-        />
-      </Bottom.Navigator>
-    </>
-  );
-}
+
 // dashboard auth
 function Router() {
+  const cart = useSelector(state => state.chart.chart);
   return (
     <>
       <StatusBar barStyle={'light-content'} />
@@ -112,6 +134,14 @@ function Router() {
             backgroundColor: '#F2F2F2',
           },
         }}>
+        <Stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{
+            headerShown: false,
+            swipeEnabled: false,
+          }}
+        />
         <Stack.Screen
           name="Landing"
           component={Landing}
@@ -189,6 +219,220 @@ function Router() {
           }}
         />
         <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}></Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  My Cart
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Coupon"
+          component={Coupon}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Coupon
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Delivery"
+          component={Delivery}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Checkout
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Payment"
+          component={Payment}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Payment
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={Order404}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Orders
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
           name="Detail"
           component={Detail}
           options={{
@@ -206,21 +450,23 @@ function Router() {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Ionicons
-                  style={{marginRight: 20}}
-                  name="cart-outline"
-                  size={24}
-                  color="black"
-                />
+                <Link to={cart.length === 0 ? '/Order' : '/Cart'}>
+                  <Ionicons
+                    style={{marginRight: 20}}
+                    name="cart-outline"
+                    size={24}
+                    color="black"
+                  />
+                </Link>
               </View>
             ),
           }}
         />
-
         <Stack.Screen
-          name="Dashboard"
-          component={BottomNav}
+          name="Home"
+          component={HomeNav}
           options={{
+            // swipeEnabled: false,
             headerShown: false,
           }}
         />

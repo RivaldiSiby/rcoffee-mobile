@@ -3,7 +3,7 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, View, TouchableOpacity} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import Awesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -12,7 +12,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {failLogin} from '../../redux/actionCreator/login';
 import {clearChart} from '../../redux/actionCreator/chart';
 import {clearUser} from '../../redux/actionCreator/user';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {LogoutHandler} from '../../modules/auth/LogoutHandler';
 import {doneLoading, isLoading} from '../../redux/actionCreator/loading';
 const Drawer = createDrawerNavigator();
@@ -23,27 +22,26 @@ function DrawerDashboard({navigation}) {
   const user = useSelector(state => state.user.user);
   const dispatch = useDispatch();
   const logoutUserHandler = async () => {
-    const logout = async () => {
-      try {
-        dispatch(isLoading());
+    try {
+      dispatch(isLoading());
+      // logout API
+      const refreshToken = login.auth['refreshkey'];
+      await LogoutHandler(refreshToken);
 
-        // logout API
-        const refreshToken = login.auth['refreshkey'];
-        await LogoutHandler(refreshToken);
-        // clear storage
-        dispatch(failLogin());
-        dispatch(clearChart());
-        dispatch(clearUser());
-        dispatch(doneLoading());
-        navigation.navigate('Login');
-      } catch (error) {
-        console.log(error);
-        console.log(error.response.data.message);
-        dispatch(doneLoading());
-      }
-    };
-    await logout();
+      dispatch(doneLoading());
+      navigation.navigate('Login');
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(doneLoading());
+    }
+    // clear storage
+    dispatch(failLogin());
+    dispatch(clearChart());
+    dispatch(clearUser());
+    navigation.navigate('Login');
   };
+
   return (
     <>
       <View style={style.container}>

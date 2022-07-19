@@ -1,0 +1,53 @@
+import {StyleSheet} from 'react-native';
+
+export default StyleSheet.create({
+  containerMain: {
+    backgroundColor: '#F2F2F2',
+    height: 'auto',
+    paddingTop: 50,
+    paddingBottom: 50,
+  },
+  boldText: {
+    marginTop: 27,
+    color: 'black',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '900',
+    fontSize: 33,
+    lineHeight: 34,
+    textAlign: 'center',
+  },
+  textPara: {
+    marginHorizontal: '15%',
+    color: 'black',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: 17,
+    lineHeight: 26,
+    textAlign: 'center',
+    opacity: 0.57,
+  },
+  btnRegis: {
+    marginVertical: 50,
+    marginTop: 100,
+    backgroundColor: '#6A4029',
+    borderRadius: 20,
+    height: 70,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    marginBottom: 100,
+    marginHorizontal: '10%',
+  },
+  textBtnRegis: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontFamily: 'Poppins',
+    fontStyle: 'normal',
+    fontWeight: '700',
+    fontSize: 17,
+    lineHeight: 26,
+  },
+});

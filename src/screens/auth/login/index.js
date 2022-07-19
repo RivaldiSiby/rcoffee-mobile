@@ -45,7 +45,7 @@ const Login = ({navigation}) => {
       dispatch(addUser(result.data.data.datauser));
       console.log(result);
 
-      navigation.navigate('Dashboard', {screen: 'Home'});
+      navigation.navigate('Home');
       dispatch(doneLoading());
     } catch (error) {
       dispatch(doneLoading());
@@ -106,9 +106,7 @@ const Login = ({navigation}) => {
             <View style={styles.borderFlex}></View>
           </View>
           <View style={styles.sectionForm}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Dashboard', {screen: 'Home'})}
-              style={styles.btnGoogle}>
+            <TouchableOpacity style={styles.btnGoogle}>
               <Image style={styles.iconPass} source={google} />
               <Text style={styles.textBtnGoogle}>Login with Google</Text>
             </TouchableOpacity>
