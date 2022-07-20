@@ -15,8 +15,10 @@ import Loading from '../../loading';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {GenerateToken} from '../../../modules/auth/checkAuth';
+import ReactNativeModal from 'react-native-modal';
 
-const Home = ({navigation}) => {
+const Home = ({navigation, route}) => {
+  const {notif} = route.params;
   const login = useSelector(state => state.login);
   const Load = useSelector(state => state.loading.status);
   const dispatch = useDispatch();
@@ -27,6 +29,7 @@ const Home = ({navigation}) => {
   const [food, setFood] = useState(false);
   const [product, setProduct] = useState([]);
   const [categoryKey, setCategoryKey] = useState('favorite');
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -34,6 +37,9 @@ const Home = ({navigation}) => {
         dispatch(isLoading());
         await GenerateToken(login.auth);
         dispatch(doneLoading());
+        if (notif !== null) {
+          setVisible(true);
+        }
         return;
       } catch (error) {
         console.log(error);
@@ -134,6 +140,38 @@ const Home = ({navigation}) => {
         <Loading />
       ) : (
         <>
+          <ReactNativeModal isVisible={visible}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                marginHorizontal: '10%',
+                alignItems: 'center',
+                paddingVertical: 20,
+                borderRadius: 20,
+              }}>
+              <Ionicons
+                name="checkmark-done-outline"
+                size={50}
+                color={'green'}></Ionicons>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 25,
+                  fontWeight: '900',
+                  paddingVertical: 10,
+                }}>
+                {notif}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setVisible(false)}
+                style={{marginTop: 20}}>
+                <Ionicons
+                  name="close-outline"
+                  size={25}
+                  color={'red'}></Ionicons>
+              </TouchableOpacity>
+            </View>
+          </ReactNativeModal>
           <ScrollView style={styles.containerMain}>
             <Text style={styles.headerText}>A good coffee is a good day</Text>
             <View style={styles.searchInput}>

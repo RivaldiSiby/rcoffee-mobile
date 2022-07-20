@@ -29,7 +29,6 @@ function DrawerDashboard({navigation}) {
       await LogoutHandler(refreshToken);
 
       dispatch(doneLoading());
-      navigation.navigate('Login');
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
@@ -39,7 +38,7 @@ function DrawerDashboard({navigation}) {
     dispatch(failLogin());
     dispatch(clearChart());
     dispatch(clearUser());
-    navigation.navigate('Login');
+    navigation.navigate('Login', {notif: 'Logout Success'});
   };
 
   return (

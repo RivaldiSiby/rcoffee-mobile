@@ -27,7 +27,7 @@ const Started = ({navigation}) => {
                 <Text style={styles.textBtnRegis}>Create New Account</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate('Login', {notif: null})}
                 style={styles.btnLogin}>
                 <Text style={styles.textBtnLogin}>Login</Text>
               </TouchableOpacity>

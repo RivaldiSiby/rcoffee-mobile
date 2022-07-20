@@ -33,6 +33,7 @@ import Delivery from './dashboard/delivery';
 import Payment from './dashboard/payment';
 import Profile from './dashboard/profile';
 import Splash from './splash/index';
+import History from './dashboard/history';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -221,6 +222,40 @@ function Router() {
         <Stack.Screen
           name="Profile"
           component={Profile}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}></Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="History"
+          component={History}
           options={{
             headerTitle: '',
             titleStyle: {

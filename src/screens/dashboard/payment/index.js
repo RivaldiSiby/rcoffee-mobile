@@ -20,6 +20,7 @@ import {clearChart} from '../../../redux/actionCreator/chart';
 import {GenerateToken} from '../../../modules/auth/checkAuth';
 import {successLogin} from '../../../redux/actionCreator/login';
 import {postPayment} from '../../../modules/payment/postPayment';
+import ReactNativeModal from 'react-native-modal';
 
 const Payment = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Payment = ({navigation, route}) => {
   const [payment1, setPayment1] = useState(true);
   const [payment2, setPayment2] = useState(false);
   const [payment3, setPayment3] = useState(false);
+  const [visible, setVisible] = useState(false);
   const Load = useSelector(state => state.loading.status);
 
   useEffect(() => {
@@ -61,10 +63,14 @@ const Payment = ({navigation, route}) => {
         payment_method: payment,
       };
       await postPayment(token, data);
+      setVisible(true);
       // hapus local storage chart
       dispatch(clearChart());
       dispatch(doneLoading());
-      navigation.navigate('Home');
+      navigation.navigate('Home', {
+        screen: 'Home',
+        params: {notif: 'Payment Success'},
+      });
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
@@ -82,6 +88,29 @@ const Payment = ({navigation, route}) => {
   };
   return (
     <>
+      <ReactNativeModal isVisible={visible}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            marginHorizontal: '10%',
+            alignItems: 'center',
+            paddingVertical: 20,
+            borderRadius: 20,
+          }}>
+          <Ionicons
+            name="checkmark-done-outline"
+            size={50}
+            color={'green'}></Ionicons>
+          <Text
+            style={{
+              color: 'black',
+              fontWeight: '900',
+              paddingVertical: 10,
+            }}>
+            Payment Success
+          </Text>
+        </View>
+      </ReactNativeModal>
       {Load === true ? (
         <Loading />
       ) : (

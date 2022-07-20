@@ -14,7 +14,10 @@ const Splash = ({navigation}) => {
       try {
         await GenerateToken(login.auth);
 
-        navigation.navigate('Home');
+        navigation.navigate('Home', {
+          screen: 'Home',
+          params: {notif: 'Welcome'},
+        });
       } catch (error) {
         console.log(error);
         console.log(error.request.status);
@@ -22,7 +25,7 @@ const Splash = ({navigation}) => {
         if (error.request.status !== 400) {
           if (error.request.status === 401) {
             dispatch(failLogin());
-            navigation.navigate('Login');
+            navigation.navigate('Landing');
           }
           //   const screen = ErrorsHandler(error.request.status);
           //   console.log(screen);

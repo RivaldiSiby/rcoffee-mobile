@@ -15,20 +15,31 @@ import {
   Touchable,
   ImageBackground,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from '../style';
 import {useDispatch, useSelector} from 'react-redux';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import {signupHandler} from '../../../modules/auth/signupHandler';
+import ReactNativeModal from 'react-native-modal';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Signup = ({navigation}) => {
   const [isShow, setIsShow] = useState(false);
   const dispatch = useDispatch();
+  const login = useSelector(state => state.login.status);
   const Load = useSelector(state => state.loading.status);
   const [Email, setEmail] = useState('');
   const [Pass, setPass] = useState('');
   const [Phone, setPhone] = useState('');
+  const [errors, setErrors] = useState(false);
+  const [msg, setMsg] = useState(false);
 
+  // cek user login
+  useEffect(() => {
+    if (login === true) {
+      navigation.navigate('Home');
+    }
+  }, []);
   const regisHandler = async () => {
     try {
       dispatch(isLoading());
@@ -39,15 +50,44 @@ const Signup = ({navigation}) => {
       };
       await signupHandler(payload);
       dispatch(doneLoading());
-      navigation.navigate('Login');
+      navigation.navigate('Login', {notif: 'Signup Success'});
     } catch (error) {
       dispatch(doneLoading());
+      console.log(error);
       console.log(error.response.data.message);
+      setErrors(true);
+      setMsg(error.response.data.message);
     }
   };
   // regis
   return (
     <View>
+      <ReactNativeModal isVisible={errors}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            marginHorizontal: '10%',
+            alignItems: 'center',
+            paddingVertical: 20,
+            borderRadius: 20,
+          }}>
+          <Ionicons name="alert-outline" size={50} color={'red'}></Ionicons>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              fontWeight: '400',
+              paddingVertical: 10,
+            }}>
+            {msg}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setErrors(false)}
+            style={{marginTop: 20}}>
+            <Ionicons name="close-outline" size={25} color={'red'}></Ionicons>
+          </TouchableOpacity>
+        </View>
+      </ReactNativeModal>
       <ImageBackground
         source={signupBg}
         style={styles.containerMain}

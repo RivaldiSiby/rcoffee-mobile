@@ -5,7 +5,9 @@ import styles from './style';
 import {getProductDetail} from '../../../modules/products/getProductDetail';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Loading from '../../loading';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {addChart} from '../../../redux/actionCreator/chart';
+import ReactNativeModal from 'react-native-modal';
 
 const Detail = ({route, navigation}) => {
   // data
@@ -17,6 +19,7 @@ const Detail = ({route, navigation}) => {
   const login = useSelector(state => state.login);
   const chart = useSelector(state => state.chart);
   const Load = useSelector(state => state.loading.status);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     const getData = async () => {
       try {
@@ -52,6 +55,8 @@ const Detail = ({route, navigation}) => {
         quantity: quantity,
       };
       setQuantity(1);
+
+      setVisible(true);
       if (chart.chart.length > 0) {
         const checkProduct = chart.chart.findIndex(
           item => item.id === dataProduct.id,
@@ -95,6 +100,60 @@ const Detail = ({route, navigation}) => {
         <Loading />
       ) : (
         <>
+          <ReactNativeModal isVisible={visible}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                marginHorizontal: '10%',
+                alignItems: 'center',
+                paddingVertical: 20,
+                borderRadius: 20,
+              }}>
+              <Ionicons
+                name="checkmark-done-outline"
+                size={50}
+                color={'green'}></Ionicons>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: '900',
+                  paddingVertical: 10,
+                }}>
+                Success Add Product
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: '900',
+                  paddingVertical: 10,
+                }}>
+                {productDetail.name}
+              </Text>
+              <Text
+                style={{
+                  color: 'black',
+                  fontSize: 12,
+                  fontWeight: '400',
+                }}>
+                {productDetail.size}
+              </Text>
+              <Text
+                style={{
+                  color: '#895537',
+                  fontWeight: '400',
+                }}>
+                IDR {productDetail.price}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setVisible(false)}
+                style={{marginTop: 50}}>
+                <Ionicons
+                  name="close-outline"
+                  size={25}
+                  color={'red'}></Ionicons>
+              </TouchableOpacity>
+            </View>
+          </ReactNativeModal>
           <ScrollView style={styles.containerMain}>
             <View style={styles.imgBox}>
               <Image

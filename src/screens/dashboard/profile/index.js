@@ -1,4 +1,11 @@
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './style';
 import {useDispatch, useSelector} from 'react-redux';
@@ -47,7 +54,7 @@ const Profile = ({navigation}) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <Text style={styles.textHead}>My profile</Text>
+              <Text style={styles.textHead}>Your Information</Text>
               <Text style={styles.textTriger}>edit</Text>
             </View>
             <View style={styles.boxProfile}>
@@ -61,13 +68,15 @@ const Profile = ({navigation}) => {
                 <Text style={styles.textAddress}>{user.address}</Text>
               </View>
             </View>
-            <View style={styles.boxMenu}>
+            <Pressable
+              onPress={() => navigation.navigate('History')}
+              style={styles.boxMenu}>
               <Text style={styles.textHead}>Order History</Text>
               <Ionicons
                 size={24}
                 color={'black'}
                 name="chevron-forward-outline"></Ionicons>
-            </View>
+            </Pressable>
             <View style={styles.boxMenu}>
               <Text style={styles.textHead}>Edit Password</Text>
               <Ionicons

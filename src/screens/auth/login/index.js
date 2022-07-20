@@ -15,24 +15,39 @@ import {
   Touchable,
   ImageBackground,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styles from '../style';
 import {Link} from '@react-navigation/native';
 import {LoginHandler} from '../../../modules/auth/LoginHandler';
 import {useDispatch, useSelector} from 'react-redux';
 import Loading from '../../loading';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {successLogin} from '../../../redux/actionCreator/login';
 import {addUser} from '../../../redux/actionCreator/user';
-import loading from '../../../redux/reducers/loading';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
+import ReactNativeModal from 'react-native-modal';
 
-const Login = ({navigation}) => {
+const Login = ({navigation, route}) => {
+  const {notif} = route.params;
   const [isShow, setIsShow] = useState(false);
   const dispatch = useDispatch();
+  const login = useSelector(state => state.login.status);
   const Load = useSelector(state => state.loading.status);
   const [Email, setEmail] = useState('');
   const [Pass, setPass] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [errors, setErrors] = useState(false);
+  const [msg, setMsg] = useState(false);
 
+  // cek user login
+  useEffect(() => {
+    if (login === true) {
+      navigation.navigate('Home');
+    }
+    if (notif !== null) {
+      setVisible(true);
+    }
+  }, []);
   const LoginUserHandler = async () => {
     try {
       dispatch(isLoading());
@@ -45,17 +60,79 @@ const Login = ({navigation}) => {
       dispatch(addUser(result.data.data.datauser));
       console.log(result);
 
-      navigation.navigate('Home');
+      navigation.navigate('Home', {
+        screen: 'Home',
+        params: {notif: 'Login Success'},
+      });
+
       dispatch(doneLoading());
     } catch (error) {
+      setVisible(false);
       dispatch(doneLoading());
       console.log(error);
       console.log(error.response.data.message);
+      setErrors(true);
+      setMsg(error.response.data.message);
     }
   };
   return (
     <View>
       {Load === true ? <Loading /> : ''}
+      <ReactNativeModal isVisible={visible}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            marginHorizontal: '10%',
+            alignItems: 'center',
+            paddingVertical: 20,
+            borderRadius: 20,
+          }}>
+          <Ionicons
+            name="checkmark-done-outline"
+            size={50}
+            color={'green'}></Ionicons>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 25,
+              fontWeight: '900',
+              paddingVertical: 10,
+            }}>
+            {notif}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setVisible(false)}
+            style={{marginTop: 20}}>
+            <Ionicons name="close-outline" size={25} color={'red'}></Ionicons>
+          </TouchableOpacity>
+        </View>
+      </ReactNativeModal>
+      <ReactNativeModal isVisible={errors}>
+        <View
+          style={{
+            backgroundColor: 'white',
+            marginHorizontal: '10%',
+            alignItems: 'center',
+            paddingVertical: 20,
+            borderRadius: 20,
+          }}>
+          <Ionicons name="alert-outline" size={50} color={'red'}></Ionicons>
+          <Text
+            style={{
+              color: 'black',
+              fontSize: 15,
+              fontWeight: '400',
+              paddingVertical: 10,
+            }}>
+            {msg}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setErrors(false)}
+            style={{marginTop: 20}}>
+            <Ionicons name="close-outline" size={25} color={'red'}></Ionicons>
+          </TouchableOpacity>
+        </View>
+      </ReactNativeModal>
       <ImageBackground
         source={loginBg}
         style={styles.containerMain}

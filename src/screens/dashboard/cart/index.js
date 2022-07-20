@@ -97,6 +97,7 @@ const Cart = ({navigation, route}) => {
       }
     });
   };
+
   return (
     <>
       {Load === true ? (

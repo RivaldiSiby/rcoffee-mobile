@@ -23,7 +23,7 @@ const Order404 = ({navigation}) => {
             Hit the orange button down below to Create an order
           </Text>
 
-          <TouchableOpacity
+          <TouchableOpacity 
             onPress={() => navigation.navigate('Home')}
             style={styles.btnRegis}>
             <Text style={styles.textBtnRegis}>Start odering</Text>
