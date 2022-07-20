@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   headerText: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '900',
     fontSize: 34,
@@ -27,7 +27,7 @@ export default StyleSheet.create({
 
   headText: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 17,
@@ -58,7 +58,7 @@ export default StyleSheet.create({
   listText: {
     marginLeft: 10,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 17,
@@ -68,7 +68,7 @@ export default StyleSheet.create({
     marginBottom: 8,
     paddingVertical: 3,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 15,
@@ -79,7 +79,7 @@ export default StyleSheet.create({
   },
   titleText: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,
@@ -89,7 +89,7 @@ export default StyleSheet.create({
   },
   totalText: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 17,
@@ -97,7 +97,7 @@ export default StyleSheet.create({
   },
   priceText: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 22,
@@ -119,7 +119,7 @@ export default StyleSheet.create({
   textBtnRegis: {
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,
@@ -147,7 +147,7 @@ export default StyleSheet.create({
   },
   textPrice: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 17,
@@ -155,7 +155,7 @@ export default StyleSheet.create({
   },
   ProductText: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 14,

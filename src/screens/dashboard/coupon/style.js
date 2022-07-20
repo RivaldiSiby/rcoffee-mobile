@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   textCoupon: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 15,
@@ -46,7 +46,7 @@ export default StyleSheet.create({
   textBox: {
     marginTop: 15,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '900',
     fontSize: 22,
@@ -56,7 +56,7 @@ export default StyleSheet.create({
   textDesc: {
     marginTop: 10,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 14,
@@ -75,7 +75,7 @@ export default StyleSheet.create({
   textHeading: {
     marginTop: 27,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 16,
@@ -85,7 +85,7 @@ export default StyleSheet.create({
   codeText: {
     marginTop: 27,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 33,
@@ -107,7 +107,7 @@ export default StyleSheet.create({
   textBtnRegis: {
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,

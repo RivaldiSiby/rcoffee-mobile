@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styles from './style';
 import {getProductDetail} from '../../../modules/products/getProductDetail';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
-import Loading from '../../loading';
+import Loading from '../../component/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {addChart} from '../../../redux/actionCreator/chart';
 import ReactNativeModal from 'react-native-modal';

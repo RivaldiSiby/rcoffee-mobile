@@ -15,7 +15,7 @@ export default StyleSheet.create({
     borderRadius: 1000,
   },
   nameProduct: {
-    fontFamily: 'Poppins-bold',
+    fontFamily: 'Poppins-Regular-bold',
     fontSize: 38,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     color: 'black',
   },
   priceProduct: {
-    fontFamily: 'Poppins-bold',
+    fontFamily: 'Poppins-Regular-bold',
     fontSize: 24,
     fontStyle: 'normal',
     fontWeight: '700',
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     color: '#6A4029',
   },
   textHeading: {
-    fontFamily: 'Poppins-bold',
+    fontFamily: 'Poppins-Regular-bold',
     fontSize: 20,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -39,7 +39,7 @@ export default StyleSheet.create({
     color: 'black',
   },
   textDesc: {
-    fontFamily: 'Poppins-bold',
+    fontFamily: 'Poppins-Regular-bold',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -65,7 +65,7 @@ export default StyleSheet.create({
   textBtnDetail: {
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,
@@ -102,7 +102,7 @@ export default StyleSheet.create({
   textBulletActive: {
     color: '#6A4029',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 13,
@@ -122,7 +122,7 @@ export default StyleSheet.create({
   textBullet: {
     color: '#4F5665',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 13,

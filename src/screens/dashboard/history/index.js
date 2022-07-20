@@ -10,7 +10,7 @@ import React, {useEffect, useState} from 'react';
 import styles from './style';
 import {useDispatch, useSelector} from 'react-redux';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
-import Loading from '../../loading';
+import Loading from '../../component/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import Awesome5 from 'react-native-vector-icons/FontAwesome5';

@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
-import Loading from '../loading';
+import Loading from '../component/loading';
 import {useDispatch, useSelector} from 'react-redux';
 import {doneLoading, isLoading} from '../../redux/actionCreator/loading';
 import {failLogin} from '../../redux/actionCreator/login';
@@ -12,6 +12,11 @@ const Splash = ({navigation}) => {
   useEffect(() => {
     const checkLogin = async () => {
       try {
+        // cek status login
+        if (login.status === false) {
+          dispatch(failLogin());
+          return navigation.navigate('Landing');
+        }
         await GenerateToken(login.auth);
 
         navigation.navigate('Home', {

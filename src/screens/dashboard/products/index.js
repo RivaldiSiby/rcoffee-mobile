@@ -12,7 +12,7 @@ import {Link} from '@react-navigation/native';
 import {getProducts} from '../../../modules/products/getProducts';
 import ErrorsHandler from '../../../helper/errorHandler';
 import {useDispatch, useSelector} from 'react-redux';
-import Loading from '../../loading';
+import Loading from '../../component/loading';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {searchProducts} from '../../../modules/products/searchProducts';

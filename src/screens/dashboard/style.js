@@ -6,7 +6,7 @@ export default StyleSheet.create({
     height: '100%',
   },
   headerText: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 34,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -16,7 +16,7 @@ export default StyleSheet.create({
     marginRight: '15%',
   },
   headerTextProduct: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 34,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -37,7 +37,7 @@ export default StyleSheet.create({
     paddingHorizontal: '10%',
   },
   inputBox: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 17,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -63,7 +63,7 @@ export default StyleSheet.create({
     marginHorizontal: 5,
   },
   menuText: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 17,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -71,7 +71,7 @@ export default StyleSheet.create({
     color: '#9A9A9D',
   },
   menuTextActive: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 17,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -82,7 +82,7 @@ export default StyleSheet.create({
     marginTop: 45,
     textAlign: 'right',
     marginRight: '10%',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -113,7 +113,7 @@ export default StyleSheet.create({
     borderRadius: 20,
   },
   itemText: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 22,
     fontStyle: 'normal',
     fontWeight: '900',
@@ -123,7 +123,7 @@ export default StyleSheet.create({
     marginHorizontal: '15%',
   },
   itemPrice: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 17,
     fontStyle: 'normal',
     fontWeight: '700',
@@ -196,7 +196,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bulletText: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -216,7 +216,7 @@ export default StyleSheet.create({
     backgroundColor: '#6A4029',
   },
   bulletTextActive: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '400',
@@ -234,7 +234,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   bulletTextBtn: {
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontSize: 15,
     fontStyle: 'normal',
     fontWeight: '700',

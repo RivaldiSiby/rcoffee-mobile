@@ -9,7 +9,7 @@ export default StyleSheet.create({
   },
   textTitle: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '900',
     fontSize: 34,
@@ -19,7 +19,7 @@ export default StyleSheet.create({
   },
   textHead: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 18,
@@ -28,7 +28,7 @@ export default StyleSheet.create({
   },
   textTriger: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 15,
@@ -49,7 +49,7 @@ export default StyleSheet.create({
   },
   textBold: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,
@@ -57,7 +57,7 @@ export default StyleSheet.create({
   },
   textPrice: {
     color: '#895537',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 15,
@@ -65,7 +65,7 @@ export default StyleSheet.create({
   },
   textDate: {
     color: '#895537',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 10,

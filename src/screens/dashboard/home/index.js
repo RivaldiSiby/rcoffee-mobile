@@ -11,11 +11,12 @@ import styles from '../style';
 import {getProducts} from '../../../modules/products/getProducts';
 import ErrorsHandler from '../../../helper/errorHandler';
 import {useDispatch, useSelector} from 'react-redux';
-import Loading from '../../loading';
+import Loading from '../../component/loading';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {GenerateToken} from '../../../modules/auth/checkAuth';
 import ReactNativeModal from 'react-native-modal';
+import ModalSuccess from '../../component/modals/ModalSuccess';
 
 const Home = ({navigation, route}) => {
   const {notif} = route.params;
@@ -140,37 +141,11 @@ const Home = ({navigation, route}) => {
         <Loading />
       ) : (
         <>
-          <ReactNativeModal isVisible={visible}>
-            <View
-              style={{
-                backgroundColor: 'white',
-                marginHorizontal: '10%',
-                alignItems: 'center',
-                paddingVertical: 20,
-                borderRadius: 20,
-              }}>
-              <Ionicons
-                name="checkmark-done-outline"
-                size={50}
-                color={'green'}></Ionicons>
-              <Text
-                style={{
-                  color: 'black',
-                  fontSize: 25,
-                  fontWeight: '900',
-                  paddingVertical: 10,
-                }}>
-                {notif}
-              </Text>
-              <TouchableOpacity
-                onPress={() => setVisible(false)}
-                style={{marginTop: 20}}>
-                <Ionicons
-                  name="close-outline"
-                  size={25}
-                  color={'red'}></Ionicons>
-              </TouchableOpacity>
-            </View>
+          <ReactNativeModal
+            animationIn={'zoomIn'}
+            animationOut={'zoomOut'}
+            isVisible={visible}>
+            <ModalSuccess msg={notif} cb={setVisible} />
           </ReactNativeModal>
           <ScrollView style={styles.containerMain}>
             <Text style={styles.headerText}>A good coffee is a good day</Text>

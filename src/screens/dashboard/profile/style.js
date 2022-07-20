@@ -22,7 +22,7 @@ export default StyleSheet.create({
   textBtnRegis: {
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,
@@ -30,7 +30,7 @@ export default StyleSheet.create({
   },
   textTitle: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Bold',
     fontStyle: 'normal',
     fontWeight: '900',
     fontSize: 34,
@@ -40,7 +40,7 @@ export default StyleSheet.create({
   },
   textHead: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 18,
@@ -49,7 +49,7 @@ export default StyleSheet.create({
   },
   textTriger: {
     color: '#6A4029',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 15,
@@ -58,7 +58,7 @@ export default StyleSheet.create({
   },
   textBold: {
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '900',
     fontSize: 18,
@@ -66,7 +66,7 @@ export default StyleSheet.create({
   },
   boxProfile: {
     height: 'auto',
-    width: '80%',
+    flex: 1,
     marginTop: 9,
     marginHorizontal: '10%',
     paddingVertical: 26,
@@ -76,25 +76,27 @@ export default StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: 24,
   },
-  boxImg: {
+  boxImgInfo: {
     height: '100%',
+    flex: 1,
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: 'yellow',
   },
   imgProfile: {
-    height: 80,
-    width: 80,
+    height: 70,
+    width: 70,
     borderRadius: 200,
     marginLeft: '10%',
   },
-  boxInfo: {
-    padding: 1,
+  boxTextInfo: {
+    width: 100,
+    height: 150,
+    flex: 1,
     paddingRight: 10,
   },
   textInfo: {
-    maxWidth: '78%',
     color: 'rgba(106, 64, 41, 0.6)',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 15,
@@ -104,9 +106,8 @@ export default StyleSheet.create({
     borderBottomColor: 'rgba(0, 0, 0, 0.5)',
   },
   textAddress: {
-    maxWidth: '78%',
     color: 'rgba(106, 64, 41, 0.6)',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 15,

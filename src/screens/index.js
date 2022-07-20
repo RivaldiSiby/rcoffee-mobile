@@ -34,13 +34,13 @@ import Payment from './dashboard/payment';
 import Profile from './dashboard/profile';
 import Splash from './splash/index';
 import History from './dashboard/history';
+import EditProfile from './dashboard/profile/Edit';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 const Bottom = createBottomTabNavigator();
 
-// auth navigation
-
+// drawer navigate
 function HomeNav({navigation}) {
   const cart = useSelector(state => state.chart.chart);
   const user = useSelector(state => state.user.user);
@@ -122,7 +122,7 @@ function HomeNav({navigation}) {
   );
 }
 
-// dashboard auth
+// Main router navigate
 function Router() {
   const cart = useSelector(state => state.chart.chart);
   return (
@@ -206,7 +206,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -242,7 +242,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -276,7 +276,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -310,7 +310,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -346,7 +346,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -354,6 +354,42 @@ function Router() {
                     color: 'black',
                   }}>
                   Coupon
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Edit Profile
                 </Text>
               </View>
             ),
@@ -382,7 +418,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -418,7 +454,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',
@@ -454,7 +490,7 @@ function Router() {
                 <Text
                   style={{
                     textAlign: 'center',
-                    fontFamily: 'Poppins',
+                    fontFamily: 'Poppins-Bold',
                     fontSize: 18,
                     fontStyle: 'normal',
                     fontWeight: '700',

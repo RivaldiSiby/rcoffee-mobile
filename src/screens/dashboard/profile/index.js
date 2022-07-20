@@ -10,10 +10,8 @@ import React, {useEffect, useState} from 'react';
 import styles from './style';
 import {useDispatch, useSelector} from 'react-redux';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
-import Loading from '../../loading';
+import Loading from '../../component/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Material from 'react-native-vector-icons/MaterialCommunityIcons';
-import Awesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Profile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -47,7 +45,10 @@ const Profile = ({navigation}) => {
       ) : (
         <>
           <ScrollView style={styles.containerMain}>
-            <Text style={styles.textTitle}>My profile</Text>
+            <View>
+              <Text style={styles.textTitle}>My profile</Text>
+            </View>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -55,13 +56,16 @@ const Profile = ({navigation}) => {
                 alignItems: 'center',
               }}>
               <Text style={styles.textHead}>Your Information</Text>
-              <Text style={styles.textTriger}>edit</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('EditProfile')}>
+                <Text style={styles.textTriger}>edit</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.boxProfile}>
-              <View styles={styles.boxImg}>
+              <View styles={styles.boxImgInfo}>
                 <Image style={styles.imgProfile} source={{uri: user.img}} />
               </View>
-              <View styles={styles.boxInfo}>
+              <View style={styles.boxTextInfo}>
                 <Text style={styles.textBold}>{user.name}</Text>
                 <Text style={styles.textInfo}>{user.email}</Text>
                 <Text style={styles.textInfo}>{user.phone}</Text>
@@ -99,9 +103,9 @@ const Profile = ({navigation}) => {
                 name="chevron-forward-outline"></Ionicons>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Cart', {coupon: coupon})}
+              onPress={() => navigation.navigate('EditProfile')}
               style={styles.btnRegis}>
-              <Text style={styles.textBtnRegis}>Save Change</Text>
+              <Text style={styles.textBtnRegis}>Edit Profile</Text>
             </TouchableOpacity>
           </ScrollView>
         </>

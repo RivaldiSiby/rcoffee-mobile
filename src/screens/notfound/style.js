@@ -10,7 +10,7 @@ export default StyleSheet.create({
   boldText: {
     marginTop: 27,
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '900',
     fontSize: 33,
@@ -20,7 +20,7 @@ export default StyleSheet.create({
   textPara: {
     marginHorizontal: '15%',
     color: 'black',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 17,
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   textBtnRegis: {
     color: 'white',
     fontWeight: 'bold',
-    fontFamily: 'Poppins',
+    fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
     fontWeight: '700',
     fontSize: 17,

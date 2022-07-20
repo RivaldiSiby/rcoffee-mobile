@@ -7,7 +7,7 @@ const Loading = () => {
       <Text style={styles.textTitle}>Rcoffee</Text>
       <Image
         style={styles.imgLoad}
-        source={require('../../assets/img/loading.gif')}
+        source={require('../../../assets/img/loading.gif')}
       />
     </View>
   );

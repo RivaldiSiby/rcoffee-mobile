@@ -20,12 +20,14 @@ import styles from '../style';
 import {Link} from '@react-navigation/native';
 import {LoginHandler} from '../../../modules/auth/LoginHandler';
 import {useDispatch, useSelector} from 'react-redux';
-import Loading from '../../loading';
+import Loading from '../../component/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {successLogin} from '../../../redux/actionCreator/login';
 import {addUser} from '../../../redux/actionCreator/user';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import ReactNativeModal from 'react-native-modal';
+import ModalSuccess from '../../component/modals/ModalSuccess';
+import ModalFail from '../../component/modals/ModalFail';
 
 const Login = ({navigation, route}) => {
   const {notif} = route.params;
@@ -78,115 +80,82 @@ const Login = ({navigation, route}) => {
   return (
     <View>
       {Load === true ? <Loading /> : ''}
-      <ReactNativeModal isVisible={visible}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            marginHorizontal: '10%',
-            alignItems: 'center',
-            paddingVertical: 20,
-            borderRadius: 20,
-          }}>
-          <Ionicons
-            name="checkmark-done-outline"
-            size={50}
-            color={'green'}></Ionicons>
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 25,
-              fontWeight: '900',
-              paddingVertical: 10,
-            }}>
-            {notif}
-          </Text>
-          <TouchableOpacity
-            onPress={() => setVisible(false)}
-            style={{marginTop: 20}}>
-            <Ionicons name="close-outline" size={25} color={'red'}></Ionicons>
-          </TouchableOpacity>
-        </View>
+      <ReactNativeModal
+        animationIn={'zoomIn'}
+        animationOut={'zoomOut'}
+        isVisible={visible}>
+        <ModalSuccess msg={notif} cb={setVisible} />
       </ReactNativeModal>
-      <ReactNativeModal isVisible={errors}>
-        <View
-          style={{
-            backgroundColor: 'white',
-            marginHorizontal: '10%',
-            alignItems: 'center',
-            paddingVertical: 20,
-            borderRadius: 20,
-          }}>
-          <Ionicons name="alert-outline" size={50} color={'red'}></Ionicons>
-          <Text
-            style={{
-              color: 'black',
-              fontSize: 15,
-              fontWeight: '400',
-              paddingVertical: 10,
-            }}>
-            {msg}
-          </Text>
-          <TouchableOpacity
-            onPress={() => setErrors(false)}
-            style={{marginTop: 20}}>
-            <Ionicons name="close-outline" size={25} color={'red'}></Ionicons>
-          </TouchableOpacity>
-        </View>
+
+      <ReactNativeModal
+        animationIn={'zoomIn'}
+        animationOut={'zoomOut'}
+        isVisible={errors}>
+        <ModalFail msg={msg} cb={setErrors} />
       </ReactNativeModal>
       <ImageBackground
         source={loginBg}
         style={styles.containerMain}
         resizeMode="cover">
-        <Text style={styles.textHeader}>Login</Text>
-        <View>
-          <View style={styles.sectionForm}>
-            <TextInput
-              onChangeText={Email => setEmail(Email)}
-              value={Email}
-              placeholder="Enter your email adress"
-              placeholderTextColor={'white'}
-              style={styles.inputForm}></TextInput>
-          </View>
-          <View style={styles.sectionForm}>
-            <View style={styles.inputPass}>
+        <View style={styles.backgroundLayerAuth}>
+          <Text style={styles.textHeader}>Login</Text>
+          <View>
+            <View style={styles.sectionForm}>
               <TextInput
-                onChangeText={Pass => setPass(Pass)}
-                value={Pass}
-                secureTextEntry={isShow === false ? true : false}
+                onChangeText={Email => setEmail(Email)}
+                value={Email}
+                placeholder="Enter your email adress"
                 placeholderTextColor={'white'}
-                placeholder="Enter your password"
-                style={styles.inputFormPass}></TextInput>
+                style={styles.inputForm}></TextInput>
+            </View>
+            <View style={styles.sectionForm}>
+              <View style={styles.inputPass}>
+                <TextInput
+                  onChangeText={Pass => setPass(Pass)}
+                  value={Pass}
+                  secureTextEntry={isShow === false ? true : false}
+                  placeholderTextColor={'white'}
+                  placeholder="Enter your password"
+                  style={styles.inputFormPass}></TextInput>
+                <TouchableOpacity
+                  onPress={() =>
+                    isShow === true ? setIsShow(false) : setIsShow(true)
+                  }>
+                  {isShow === false ? (
+                    <Ionicons
+                      size={20}
+                      color={'white'}
+                      name="eye-outline"></Ionicons>
+                  ) : (
+                    <Ionicons
+                      size={20}
+                      color={'white'}
+                      name="eye-off-outline"></Ionicons>
+                  )}
+                </TouchableOpacity>
+              </View>
+            </View>
+            <Link to={{screen: 'Forgotpass'}} style={styles.textForm}>
+              Forgot password?
+            </Link>
+            <View style={styles.sectionForm}>
               <TouchableOpacity
-                onPress={() =>
-                  isShow === true ? setIsShow(false) : setIsShow(true)
-                }>
-                <Image
-                  style={styles.iconPass}
-                  source={isShow === false ? iconShow : iconHide}
-                />
+                onPress={() => LoginUserHandler()}
+                style={styles.btnLogin}>
+                <Text style={styles.textBtnLogin}>Login</Text>
               </TouchableOpacity>
             </View>
-          </View>
-          <Link to={{screen: 'Forgotpass'}} style={styles.textForm}>
-            Forgot password?
-          </Link>
-          <View style={styles.sectionForm}>
-            <TouchableOpacity
-              onPress={() => LoginUserHandler()}
-              style={styles.btnLogin}>
-              <Text style={styles.textBtnLogin}>Login</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.sectionLogin}>
-            <View style={styles.borderFlex}></View>
-            <Text style={styles.textForm}>or login in with</Text>
-            <View style={styles.borderFlex}></View>
-          </View>
-          <View style={styles.sectionForm}>
-            <TouchableOpacity style={styles.btnGoogle}>
-              <Image style={styles.iconPass} source={google} />
-              <Text style={styles.textBtnGoogle}>Login with Google</Text>
-            </TouchableOpacity>
+            <View style={styles.sectionLogin}>
+              <View style={styles.borderFlex}></View>
+              <Text style={styles.textForm}>or login in with</Text>
+              <View style={styles.borderFlex}></View>
+            </View>
+            <View style={styles.sectionForm}>
+              <TouchableOpacity style={styles.btnGoogle}>
+                <Image style={styles.iconPass} source={google} />
+                <Text style={styles.textBtnGoogle}>Login with Google</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ImageBackground>
