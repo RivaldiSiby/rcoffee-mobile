@@ -17,6 +17,7 @@ export default StyleSheet.create({
     display: 'flex',
     borderBottomRightRadius: 20,
     borderTopRightRadius: 20,
+    alignItems: 'center',
   },
   profpict: {
     width: 100,

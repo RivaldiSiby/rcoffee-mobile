@@ -72,7 +72,6 @@ const Login = ({navigation, route}) => {
       setVisible(false);
       dispatch(doneLoading());
       console.log(error);
-      console.log(error.response.data.message);
       setErrors(true);
       setMsg(error.response.data.message);
     }

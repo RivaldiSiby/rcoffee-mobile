@@ -12,15 +12,19 @@ import {useDispatch, useSelector} from 'react-redux';
 import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import Loading from '../../component/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ReactNativeModal from 'react-native-modal';
+import ModalSuccess from '../../component/modals/ModalSuccess';
 
-const Profile = ({navigation}) => {
+const Profile = ({navigation, route}) => {
+  const {msg} = route.params;
   const dispatch = useDispatch();
   const login = useSelector(state => state.login.auth);
   const user = useSelector(state => state.user.user);
   const Load = useSelector(state => state.loading.status);
+  const [visible, setVisible] = useState(msg !== null ? true : false);
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
     // const getPromosUser = async () => {
     //   try {
     //     dispatch(isLoading());
@@ -44,6 +48,12 @@ const Profile = ({navigation}) => {
         <Loading />
       ) : (
         <>
+          <ReactNativeModal
+            animationIn={'zoomIn'}
+            animationOut={'zoomOut'}
+            isVisible={visible}>
+            <ModalSuccess msg={msg} cb={setVisible} />
+          </ReactNativeModal>
           <ScrollView style={styles.containerMain}>
             <View>
               <Text style={styles.textTitle}>My profile</Text>
@@ -57,13 +67,23 @@ const Profile = ({navigation}) => {
               }}>
               <Text style={styles.textHead}>Your Information</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate('EditProfile')}>
+                onPress={() =>
+                  navigation.navigate('EditProfile', {edit: 'profile'})
+                }>
                 <Text style={styles.textTriger}>edit</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.boxProfile}>
               <View styles={styles.boxImgInfo}>
-                <Image style={styles.imgProfile} source={{uri: user.img}} />
+                {user.img === null ? (
+                  <Ionicons
+                    style={{marginLeft: '10%'}}
+                    name="person-circle-outline"
+                    color={'rgba(0, 0, 0, 0.5)'}
+                    size={70}></Ionicons>
+                ) : (
+                  <Image style={styles.imgProfile} source={{uri: user.img}} />
+                )}
               </View>
               <View style={styles.boxTextInfo}>
                 <Text style={styles.textBold}>{user.name}</Text>
@@ -81,13 +101,17 @@ const Profile = ({navigation}) => {
                 color={'black'}
                 name="chevron-forward-outline"></Ionicons>
             </Pressable>
-            <View style={styles.boxMenu}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate('EditProfile', {edit: 'password'})
+              }
+              style={styles.boxMenu}>
               <Text style={styles.textHead}>Edit Password</Text>
               <Ionicons
                 size={24}
                 color={'black'}
                 name="chevron-forward-outline"></Ionicons>
-            </View>
+            </Pressable>
             <View style={styles.boxMenu}>
               <Text style={styles.textHead}>FAQ</Text>
               <Ionicons
@@ -103,7 +127,9 @@ const Profile = ({navigation}) => {
                 name="chevron-forward-outline"></Ionicons>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('EditProfile')}
+              onPress={() =>
+                navigation.navigate('EditProfile', {edit: 'profile'})
+              }
               style={styles.btnRegis}>
               <Text style={styles.textBtnRegis}>Edit Profile</Text>
             </TouchableOpacity>

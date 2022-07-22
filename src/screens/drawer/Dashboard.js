@@ -14,10 +14,12 @@ import {clearChart} from '../../redux/actionCreator/chart';
 import {clearUser} from '../../redux/actionCreator/user';
 import {LogoutHandler} from '../../modules/auth/LogoutHandler';
 import {doneLoading, isLoading} from '../../redux/actionCreator/loading';
+import Loading from '../component/loading';
 const Drawer = createDrawerNavigator();
 
 function DrawerDashboard({navigation}) {
   // logout
+  const Load = useSelector(state => state.loading.status);
   const login = useSelector(state => state.login);
   const user = useSelector(state => state.user.user);
   const dispatch = useDispatch();
@@ -27,7 +29,6 @@ function DrawerDashboard({navigation}) {
       // logout API
       const refreshToken = login.auth['refreshkey'];
       await LogoutHandler(refreshToken);
-
       dispatch(doneLoading());
     } catch (error) {
       console.log(error);
@@ -35,6 +36,7 @@ function DrawerDashboard({navigation}) {
       dispatch(doneLoading());
     }
     // clear storage
+
     dispatch(failLogin());
     dispatch(clearChart());
     dispatch(clearUser());
@@ -46,14 +48,15 @@ function DrawerDashboard({navigation}) {
       <View style={style.container}>
         <DrawerContentScrollView>
           <View style={style.profileContainer}>
-            <Image
-              source={
-                user.img === null
-                  ? require('../../assets/img/auth/profil.png')
-                  : {uri: user.img}
-              }
-              style={style.profpict}
-            />
+            {user.img === null ? (
+              <Ionicons
+                name="person-circle-outline"
+                color={'white'}
+                size={100}></Ionicons>
+            ) : (
+              <Image source={{uri: user.img}} style={style.profpict} />
+            )}
+
             <Text style={style.username}>{user.name}</Text>
             <Text style={style.email}>{user.email}</Text>
           </View>

@@ -100,18 +100,25 @@ function HomeNav({navigation}) {
                   />
                 </Link>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Profile')}
+                  onPress={() => navigation.navigate('Profile', {msg: null})}
                   style={{
                     marginRight: 20,
                   }}>
-                  <Image
-                    style={{
-                      width: 24,
-                      height: 24,
-                      borderRadius: 50,
-                    }}
-                    source={{uri: user.img}}
-                  />
+                  {user.img === null ? (
+                    <Ionicons
+                      name="person-circle-outline"
+                      color={'rgba(0, 0, 0, 0.5)'}
+                      size={24}></Ionicons>
+                  ) : (
+                    <Image
+                      style={{
+                        width: 24,
+                        height: 24,
+                        borderRadius: 50,
+                      }}
+                      source={{uri: user.img}}
+                    />
+                  )}
                 </TouchableOpacity>
               </View>
             ),

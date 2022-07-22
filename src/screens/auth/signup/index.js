@@ -54,7 +54,6 @@ const Signup = ({navigation}) => {
     } catch (error) {
       dispatch(doneLoading());
       console.log(error);
-      console.log(error.response.data.message);
       setErrors(true);
       setMsg(error.response.data.message);
     }
