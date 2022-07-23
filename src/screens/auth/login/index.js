@@ -28,6 +28,10 @@ import {doneLoading, isLoading} from '../../../redux/actionCreator/loading';
 import ReactNativeModal from 'react-native-modal';
 import ModalSuccess from '../../component/modals/ModalSuccess';
 import ModalFail from '../../component/modals/ModalFail';
+import {
+  sendLocalNotification,
+  sendScheduleNotification,
+} from '../../../helper/notifications';
 
 const Login = ({navigation, route}) => {
   const {notif} = route.params;
@@ -60,10 +64,13 @@ const Login = ({navigation, route}) => {
       };
       dispatch(successLogin(authData));
       dispatch(addUser(result.data.data.datauser));
-      console.log(result.data.data.datauser);
       if (result.data.data.datauser.status === 'inactive') {
         navigation.replace('Activation');
       } else {
+        sendLocalNotification(
+          'Hi, welcome customer',
+          `don't forget to drink coffee and eat something`,
+        );
         navigation.replace('Home', {
           screen: 'Home',
           params: {notif: 'Login Success'},

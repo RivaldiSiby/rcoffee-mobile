@@ -21,6 +21,10 @@ import {GenerateToken} from '../../../modules/auth/checkAuth';
 import {successLogin} from '../../../redux/actionCreator/login';
 import {postPayment} from '../../../modules/payment/postPayment';
 import ReactNativeModal from 'react-native-modal';
+import {
+  sendLocalNotification,
+  sendScheduleNotification,
+} from '../../../helper/notifications';
 
 const Payment = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -33,6 +37,7 @@ const Payment = ({navigation, route}) => {
   const [payment3, setPayment3] = useState(false);
   const [visible, setVisible] = useState(false);
   const Load = useSelector(state => state.loading.status);
+  const [date, setDate] = useState(new Date(Date.now() + 2 * 1000));
 
   useEffect(() => {
     dispatch(isLoading());
@@ -67,6 +72,12 @@ const Payment = ({navigation, route}) => {
       // hapus local storage chart
       dispatch(clearChart());
       dispatch(doneLoading());
+      // triger notification
+      sendScheduleNotification(
+        'Payment has been success',
+        'Your payment has been successful please wait and enjoy',
+        date,
+      );
       navigation.replace('Home', {
         screen: 'Home',
         params: {notif: 'Payment Success'},
