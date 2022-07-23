@@ -40,7 +40,7 @@ function DrawerDashboard({navigation}) {
     dispatch(failLogin());
     dispatch(clearChart());
     dispatch(clearUser());
-    navigation.navigate('Login', {notif: 'Logout Success'});
+    navigation.replace('Login', {notif: 'Logout Success'});
   };
 
   return (

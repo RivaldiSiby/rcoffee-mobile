@@ -67,7 +67,7 @@ const Payment = ({navigation, route}) => {
       // hapus local storage chart
       dispatch(clearChart());
       dispatch(doneLoading());
-      navigation.navigate('Home', {
+      navigation.replace('Home', {
         screen: 'Home',
         params: {notif: 'Payment Success'},
       });

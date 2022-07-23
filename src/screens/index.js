@@ -35,6 +35,9 @@ import Profile from './dashboard/profile';
 import Splash from './splash/index';
 import History from './dashboard/history';
 import EditProfile from './dashboard/profile/Edit';
+import Activation from './auth/activation';
+import Codepass from './auth/codepass';
+import Resetpass from './auth/resetpass';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -169,6 +172,30 @@ function Router() {
         <Stack.Screen
           name="Forgotpass"
           component={Forgotpass}
+          options={{
+            headerShown: false,
+            swipeEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Activation"
+          component={Activation}
+          options={{
+            headerShown: false,
+            swipeEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Codepass"
+          component={Codepass}
+          options={{
+            headerShown: false,
+            swipeEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="Resetpass"
+          component={Resetpass}
           options={{
             headerShown: false,
             swipeEnabled: false,

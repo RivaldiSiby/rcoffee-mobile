@@ -9,20 +9,25 @@ import {GenerateToken} from '../../modules/auth/checkAuth';
 const Splash = ({navigation}) => {
   const dispatch = useDispatch();
   const login = useSelector(state => state.login);
+  const user = useSelector(state => state.user.user);
   useEffect(() => {
     const checkLogin = async () => {
       try {
         // cek status login
         if (login.status === false) {
           dispatch(failLogin());
-          return navigation.navigate('Landing');
+          return navigation.replace('Landing');
         }
         await GenerateToken(login.auth);
 
-        navigation.navigate('Home', {
-          screen: 'Home',
-          params: {notif: 'Welcome'},
-        });
+        if (user.status === 'inactive') {
+          navigation.replace('Activation');
+        } else {
+          navigation.replace('Home', {
+            screen: 'Home',
+            params: {notif: 'Welcome'},
+          });
+        }
       } catch (error) {
         console.log(error);
         console.log(error.request.status);
