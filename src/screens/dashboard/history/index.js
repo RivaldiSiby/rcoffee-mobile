@@ -5,6 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from './style';
@@ -25,6 +27,7 @@ const History = ({navigation}) => {
   const Load = useSelector(state => state.loading.status);
   const [history, setHistory] = useState([]);
   const [data, setData] = useState(0);
+  const [limit, setLimit] = useState(6);
   useEffect(() => {
     const getHistoryUser = async () => {
       try {
@@ -34,9 +37,10 @@ const History = ({navigation}) => {
         let newToken = login;
         newToken['tokenkey'] = token;
         dispatch(successLogin(newToken));
-        const result = await getHistory(12, token);
+        const result = await getHistory(limit, token);
         setHistory(result.data.data);
         setData(result.data.meta.totalData);
+        console.log(data);
 
         dispatch(doneLoading());
       } catch (error) {
@@ -56,68 +60,46 @@ const History = ({navigation}) => {
     };
 
     getHistoryUser();
-  }, []);
-  const showMoreHandler = async () => {
-    try {
-      dispatch(isLoading());
-      // cek token
-      const token = await GenerateToken(login);
-      let newToken = login;
-      newToken['tokenkey'] = token;
-      dispatch(successLogin(newToken));
-      // get plus
-      const totalData = history.length + 12;
-      const result = await getHistory(totalData, token);
-      setHistory(result.data.data);
-      setData(result.data.meta.totalData);
-      console.log(result.data.meta.totalData);
-      console.log(result.data.data.length);
-      dispatch(doneLoading());
-    } catch (error) {
-      console.log(error);
-      console.log(error.response.data.message);
-      dispatch(doneLoading());
-      if (error.request.status !== 400) {
-        if (error.request.status === 401) {
-          dispatch(failLogin());
-          navigation.navigate('Login');
-        }
-        //   const screen = ErrorsHandler(error.request.status);
-        //   console.log(screen);
-        //   navigation.navigate(screen);
-      }
-    }
-  };
+  }, [limit]);
   return (
-    <>
-      {Load === true ? (
-        <Loading />
-      ) : (
-        <>
-          <ScrollView style={styles.containerMain}>
-            <Text style={styles.textTitle}>Order History</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Ionicons
-                name="hand-left-outline"
-                color={'black'}
-                size={20}></Ionicons>
-              <Text style={styles.textTriger}>swipe on an item to delete</Text>
-            </View>
-            <View
-              style={{
-                justifyContent: 'space-between',
-                // height: '100%',
-                paddingBottom: 50,
-              }}>
-              <View>
-                {/* <ScrollView horizontal vertical={false}> */}
-                {history.map(item => (
-                  <View style={styles.boxItem}>
+    <View style={styles.containerMain}>
+      <Text style={styles.textTitle}>Order History</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Ionicons name="hand-left-outline" color={'black'} size={20}></Ionicons>
+        <Text style={styles.textTriger}>swipe on an item to delete</Text>
+      </View>
+      <View
+        style={{
+          justifyContent: 'space-between',
+          // height: '100%',
+          paddingBottom: 50,
+        }}>
+        <View
+          style={{
+            marginTop: 20,
+            paddingBottom: 170,
+            height: '100%',
+          }}>
+          <>
+            <FlatList
+              data={history}
+              onEndReached={() =>
+                history.length !== data ? setLimit(limit + 6) : ''
+              }
+              maxToRenderPerBatch={data}
+              renderItem={({item, idx}) => (
+                <>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('Transaction', {id: item.id})
+                    }
+                    key={idx}
+                    style={styles.boxItem}>
                     <Ionicons
                       // style={{marginHorizontal: '10%'}}
                       name="receipt-outline"
@@ -130,25 +112,29 @@ const History = ({navigation}) => {
                         {item.created_at.split('T')[0]}
                       </Text>
                     </View>
-                  </View>
-                ))}
-
-                {/* </ScrollView> */}
-              </View>
-              {(data <= 12) | (history.length >= data) ? (
-                ''
-              ) : (
-                <TouchableOpacity
-                  onPress={() => showMoreHandler()}
-                  style={{alignItems: 'center', marginBottom: 50}}>
-                  <Text style={styles.textTriger}>Show more</Text>
-                </TouchableOpacity>
+                  </TouchableOpacity>
+                </>
               )}
-            </View>
-          </ScrollView>
-        </>
-      )}
-    </>
+            />
+            {Load === true ? (
+              <>
+                <View
+                  style={{
+                    width: '100%',
+                    position: 'absolute',
+                    marginTop: '20%',
+                    alignItems: 'center',
+                  }}>
+                  <ActivityIndicator size={'large'} color="#6A4029" />
+                </View>
+              </>
+            ) : (
+              ''
+            )}
+          </>
+        </View>
+      </View>
+    </View>
   );
 };
 

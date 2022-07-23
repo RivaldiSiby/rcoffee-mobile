@@ -88,14 +88,14 @@ const Resetpass = ({navigation, route}) => {
           <View>
             <View style={styles.sectionForm}>
               <View style={{marginVertical: 15}}>
-                <View style={styles.inputPass}>
+                <View style={styles.inputPassReset}>
                   <TextInput
                     onChangeText={Pass => setPass(Pass)}
                     value={pass}
                     secureTextEntry={isShow1 === false ? true : false}
                     placeholderTextColor={'#9F9F9F'}
                     placeholder="Enter your New password"
-                    style={styles.inputFormPass}></TextInput>
+                    style={styles.inputFormPassReset}></TextInput>
                   <TouchableOpacity
                     onPress={() =>
                       isShow1 === true ? setIsShow1(false) : setIsShow1(true)
@@ -115,14 +115,14 @@ const Resetpass = ({navigation, route}) => {
                 </View>
               </View>
               <View style={{marginVertical: 15, marginBottom: 30}}>
-                <View style={styles.inputPass}>
+                <View style={styles.inputPassReset}>
                   <TextInput
                     onChangeText={Pass => setConfirmpass(Pass)}
                     value={confirmpass}
                     secureTextEntry={isShow2 === false ? true : false}
                     placeholderTextColor={'#9F9F9F'}
                     placeholder="Confirm your New password"
-                    style={styles.inputFormPass}></TextInput>
+                    style={styles.inputFormPassReset}></TextInput>
                   <TouchableOpacity
                     onPress={() =>
                       isShow2 === true ? setIsShow2(false) : setIsShow2(true)

@@ -38,6 +38,7 @@ import EditProfile from './dashboard/profile/Edit';
 import Activation from './auth/activation';
 import Codepass from './auth/codepass';
 import Resetpass from './auth/resetpass';
+import Transaction from './dashboard/transaction';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -496,6 +497,42 @@ function Router() {
                     color: 'black',
                   }}>
                   Payment
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Transaction"
+          component={Transaction}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Transaction
                 </Text>
               </View>
             ),

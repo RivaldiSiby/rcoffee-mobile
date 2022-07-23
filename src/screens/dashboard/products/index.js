@@ -5,6 +5,8 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
+  FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import styles from '../style';
@@ -26,11 +28,6 @@ const Product = ({route, navigation}) => {
   const Load = useSelector(state => state.loading.status);
   const dispatch = useDispatch();
   const [favorite, setFavorite] = useState(true);
-  const [url, setUrl] = useState(
-    categoryKey === 'favorite'
-      ? '/product/favorite?limit=12'
-      : `/product?limit=12&category=${categoryKey}`,
-  );
   const [promo, setPromo] = useState(false);
   const [coffee, setCoffee] = useState(false);
   const [noncoffee, setNoncoffee] = useState(false);
@@ -39,45 +36,106 @@ const Product = ({route, navigation}) => {
   const [categoryValue, setCategoryValue] = useState(categoryKey);
   const [product, setProduct] = useState([]);
   const [search, setSearch] = useState('');
-  const [paginationNumber, setPaginationNumber] = useState([]);
-  const [pagination, setPagination] = useState([]);
+  const [key, setKey] = useState('');
+  const [count, setCount] = useState(0);
   const [sort, setSort] = useState('');
   const [order, setOrder] = useState('asc');
+  const [limit, setLimit] = useState(6);
   useEffect(() => {
-    dispatch(isLoading());
-    categoryHandler(categoryKey);
-    getProducts(categoryKey)
-      .then(result => {
-        if (result.data.meta.totalPage > 1) {
-          let number = [];
-          for (let i = 1; i <= result.data.meta.totalPage; i++) {
-            number.push(i);
-          }
+    const productsHandler = async () => {
+      try {
+        // cek category
 
-          setPaginationNumber(number);
+        if (categoryValue === 'all' || search !== '') {
+          setCategoryValue('all');
+          setFavorite(false);
+          setPromo(false);
+          setCoffee(false);
+          setNoncoffee(false);
+          setFood(false);
+          setAll(true);
         }
-        setProduct(result.data.data);
-        setPagination(result.data.meta);
+        if (categoryValue === 'favorite') {
+          setFavorite(true);
+          setPromo(false);
+          setCoffee(false);
+          setNoncoffee(false);
+          setFood(false);
+          setAll(false);
+        }
+        if (categoryValue === 'promo') {
+          setFavorite(false);
+          setPromo(true);
+          setCoffee(false);
+          setNoncoffee(false);
+          setFood(false);
+          setAll(false);
+        }
+        if (categoryValue === 'coffee') {
+          setFavorite(false);
+          setPromo(false);
+          setCoffee(true);
+          setNoncoffee(false);
+          setFood(false);
+          setAll(false);
+        }
+        if (categoryValue === 'noncoffee') {
+          setFavorite(false);
+          setPromo(false);
+          setCoffee(false);
+          setNoncoffee(true);
+          setFood(false);
+          setAll(false);
+        }
+        if (categoryValue === 'food') {
+          setFavorite(false);
+          setPromo(false);
+          setCoffee(false);
+          setNoncoffee(false);
+          setFood(true);
+          setAll(false);
+        }
+        dispatch(isLoading());
+        let url =
+          categoryValue === 'favorite'
+            ? `/product/favorite?limit=${limit}${
+                sort !== '' ? `&sort=${sort}` : ''
+              }${order !== '' ? `&order=${order}` : ''}`
+            : `/product?limit=${limit}${
+                categoryValue === '' || categoryValue === 'all'
+                  ? ''
+                  : `&category=${categoryValue}`
+              }${search !== '' ? `&name=${search}` : ''}${
+                sort !== '' && sort !== 'Sort By' ? `&sort=${sort}` : ''
+              }${order !== '' ? `&order=${order}` : ''}`;
+        console.log(url);
+        console.log(sort);
+        const result = await getProductsAll(url);
 
+        console.log(result.data.meta.totalData);
+        setProduct(result.data.data);
+        setCount(result.data.meta.totalData);
         dispatch(doneLoading());
-      })
-      .catch(error => {
+      } catch (error) {
         console.log(error);
         dispatch(doneLoading());
         if (error.request.status !== 400) {
+          if (error.request.status === 404) {
+            setProduct([]);
+            setCount(0);
+          }
           ErrorsHandler(error.request.status);
         }
-      });
-  }, []);
+      }
+    };
+    productsHandler();
+  }, [limit, categoryValue, sort, order, search]);
 
   const categoryHandler = async category => {
     try {
       dispatch(isLoading());
-      setSort('');
-      setOrder('asc');
-      setSearch('');
-      setProduct([]);
       setCategoryValue(category);
+      setLimit(6);
       if (category === 'favorite') {
         setFavorite(true);
         setPromo(false);
@@ -85,17 +143,6 @@ const Product = ({route, navigation}) => {
         setNoncoffee(false);
         setFood(false);
         setAll(false);
-        const result = await getProducts('favorite');
-        if (result.data.meta.totalPage > 1) {
-          let number = [];
-          for (let i = 1; i <= result.data.meta.totalPage; i++) {
-            number.push(i);
-          }
-
-          setPaginationNumber(number);
-        }
-        setProduct(result.data.data);
-        setPagination(result.data.meta);
       }
       if (category === 'promo') {
         setFavorite(false);
@@ -104,9 +151,6 @@ const Product = ({route, navigation}) => {
         setNoncoffee(false);
         setFood(false);
         setAll(false);
-        // const result = await getProducts('promo')
-        //setProduct(result.data.data);
-        //   setPagination(result.data.meta)
       }
       if (category === 'coffee') {
         setFavorite(false);
@@ -115,17 +159,6 @@ const Product = ({route, navigation}) => {
         setNoncoffee(false);
         setFood(false);
         setAll(false);
-        const result = await getProducts('coffee');
-        if (result.data.meta.totalPage > 1) {
-          let number = [];
-          for (let i = 1; i <= result.data.meta.totalPage; i++) {
-            number.push(i);
-          }
-
-          setPaginationNumber(number);
-        }
-        setProduct(result.data.data);
-        setPagination(result.data.meta);
       }
       if (category === 'noncoffee') {
         setFavorite(false);
@@ -134,17 +167,6 @@ const Product = ({route, navigation}) => {
         setNoncoffee(true);
         setFood(false);
         setAll(false);
-        const result = await getProducts('noncoffee');
-        if (result.data.meta.totalPage > 1) {
-          let number = [];
-          for (let i = 1; i <= result.data.meta.totalPage; i++) {
-            number.push(i);
-          }
-
-          setPaginationNumber(number);
-        }
-        setProduct(result.data.data);
-        setPagination(result.data.meta);
       }
       if (category === 'food') {
         setFavorite(false);
@@ -153,17 +175,6 @@ const Product = ({route, navigation}) => {
         setNoncoffee(false);
         setFood(true);
         setAll(false);
-        const result = await getProducts('food');
-        if (result.data.meta.totalPage > 1) {
-          let number = [];
-          for (let i = 1; i <= result.data.meta.totalPage; i++) {
-            number.push(i);
-          }
-
-          setPaginationNumber(number);
-        }
-        setProduct(result.data.data);
-        setPagination(result.data.meta);
       }
       if (category === 'all') {
         setFavorite(false);
@@ -172,58 +183,11 @@ const Product = ({route, navigation}) => {
         setNoncoffee(false);
         setFood(false);
         setAll(true);
-        const result = await getProducts('all');
-        if (result.data.meta.totalPage > 1) {
-          let number = [];
-          for (let i = 1; i <= result.data.meta.totalPage; i++) {
-            number.push(i);
-          }
-
-          setPaginationNumber(number);
-        }
-        setProduct(result.data.data);
-        setPagination(result.data.meta);
       }
-      //   set url
-      console.log(category);
-      let urlParams =
-        category === 'favorite'
-          ? `/product/favorite?limit=12`
-          : `/product?limit=12&category=${category}`;
-      urlParams = category === 'all' ? `/product?limit=12` : urlParams;
-      setUrl(urlParams);
-      dispatch(doneLoading());
-    } catch (error) {
-      console.log(error);
-      dispatch(doneLoading());
-      if (error.request.status !== 400) {
-        ErrorsHandler(error.request.status);
-      }
-    }
-  };
-  const searchHandler = async () => {
-    try {
-      dispatch(isLoading());
+      setSort('');
+      setOrder('asc');
+      setSearch('');
       setProduct([]);
-      setFavorite(false);
-      setPromo(false);
-      setCoffee(false);
-      setNoncoffee(false);
-      setCategoryValue('all');
-      setAll(true);
-      const result = await searchProducts(search);
-      setUrl(`/product?limit=12&name=${search}`);
-      if (result.data.meta.totalPage > 1) {
-        let number = [];
-        for (let i = 1; i <= result.data.meta.totalPage; i++) {
-          number.push(i);
-        }
-
-        setPaginationNumber(number);
-      }
-      setProduct(result.data.data);
-      setPagination(result.data.meta);
-
       dispatch(doneLoading());
     } catch (error) {
       console.log(error);
@@ -233,81 +197,17 @@ const Product = ({route, navigation}) => {
       }
     }
   };
-  const sortHandler = async () => {
-    try {
-      const cekOrder = url.indexOf('order');
-      const cekSort = url.indexOf('sort');
-      let urlKey = `${url}${
-        (sort === '') | (sort === 'Sort By') ? '' : '&sort=' + sort
-      }&order=${order}`;
-      console.log(url);
-      console.log(cekOrder, cekSort);
-      if (cekOrder !== -1 || cekSort !== -1) {
-        let urlFirst = `/product?limit=12${
-          categoryValue === '' || categoryValue === 'all'
-            ? ''
-            : `&category=${category}`
-        }`;
-        urlFirst =
-          categoryValue === 'favorite'
-            ? '/product/favorite?limit=12'
-            : urlFirst;
-        urlFirst =
-          search !== '' ? `/product?limit=12&name=${search}` : urlFirst;
-        urlKey = `${urlFirst}${
-          sort !== '' ? '&sort=' + sort : ''
-        }&order=${order}`;
-      }
-      console.log(urlKey);
-
-      const result = await getProductsAll(urlKey);
-      if (result.data.meta.totalPage > 1) {
-        let number = [];
-        for (let i = 1; i <= result.data.meta.totalPage; i++) {
-          number.push(i);
-        }
-
-        setPaginationNumber(number);
-      }
-      setProduct(result.data.data);
-      setPagination(result.data.meta);
-    } catch (error) {
-      console.log(error);
-      dispatch(doneLoading());
-      if (error.request.status !== 400) {
-        ErrorsHandler(error.request.status);
-      }
-    }
+  const searchHandler = () => {
+    setSearch(key);
   };
-  const paginationHandler = async page => {
-    try {
-      dispatch(isLoading());
-      setUrl(page);
-      console.log(page);
-      const products = await getProductsAll(page);
-      if (products.data.meta.totalPage > 1) {
-        let number = [];
-        for (let i = 1; i <= products.data.meta.totalPage; i++) {
-          number.push(i);
-        }
 
-        setPaginationNumber(number);
-      }
-      setProduct(products.data.data);
-      setPagination(products.data.meta);
-      scroll.current.scrollTo({x: 0, y: 0, animated: true});
-      dispatch(doneLoading());
-    } catch (error) {
-      dispatch(doneLoading());
-    }
-  };
   return (
     <>
       {Load === true && product.length === 0 ? (
         <Loading />
       ) : (
         <>
-          <ScrollView ref={scroll} style={styles.containerMain}>
+          <View ref={scroll} style={styles.containerMain}>
             <Text style={styles.headerTextProduct}>
               {categoryValue === 'all' ? 'All Products' : categoryValue}
             </Text>
@@ -317,8 +217,8 @@ const Product = ({route, navigation}) => {
               </TouchableOpacity>
               <TextInput
                 style={styles.inputBox}
-                value={search}
-                onChangeText={search => setSearch(search)}
+                value={key}
+                onChangeText={search => setKey(search)}
                 placeholder="Search"
                 placeholderTextColor={'rgba(0, 0, 0, 0.5)'}></TextInput>
             </View>
@@ -459,110 +359,67 @@ const Product = ({route, navigation}) => {
                   setOrder(selectedItem);
                 }}
               />
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={() => sortHandler()}
                 style={styles.btnSort}>
                 <Text style={{fontWeight: '400', fontSize: 18}}>Sorting</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {product.length > 0 ? (
               <>
                 <View style={styles.boxProduct}>
-                  <ScrollView vertical>
+                  <View>
                     <View style={styles.listItemProduct}>
-                      {product.map(list => (
-                        <>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('Detail', {
-                                id: list.id,
-                                size: list.size,
-                              })
-                            }
-                            style={styles.itemProduct}>
-                            <Image
-                              style={styles.itemImgProduct}
-                              source={{
-                                uri: list.img,
-                              }}
-                            />
-                            <Text style={styles.itemText}>{list.name}</Text>
-                            <Text style={{color: 'black'}}>{list.size}</Text>
-                            <Text style={styles.itemPrice}>
-                              IDR {list.price}
-                            </Text>
-                          </TouchableOpacity>
-                        </>
-                      ))}
-                    </View>
-                  </ScrollView>
-                </View>
-                {pagination.totalPage > 1 ? (
-                  <>
-                    <View style={styles.boxPagination}>
-                      {pagination.prev !== undefined ? (
-                        <TouchableOpacity
-                          onPress={() => paginationHandler(pagination.prev)}
-                          style={styles.bulletBtn}>
-                          <Text style={styles.bulletTextBtn}>Prev</Text>
-                        </TouchableOpacity>
-                      ) : (
-                        ''
-                      )}
-                      {paginationNumber.map(page =>
-                        parseInt(pagination.page) === page ? (
+                      <FlatList
+                        data={product}
+                        numColumns={2}
+                        keyExtractor={(item, index) => item.stock_id}
+                        onEndReached={() =>
+                          product.length !== count ? setLimit(limit + 6) : ''
+                        }
+                        renderItem={({item, idx}) => (
                           <>
                             <TouchableOpacity
                               onPress={() =>
-                                paginationHandler(
-                                  `/product?limit=12&page=${page}${
-                                    (categoryValue === '') |
-                                    (categoryValue === 'all')
-                                      ? ''
-                                      : '&category=' + categoryValue
-                                  }`,
-                                )
+                                navigation.navigate('Detail', {
+                                  id: item.id,
+                                  size: item.size,
+                                })
                               }
-                              style={styles.bulletActive}>
-                              <Text style={styles.bulletTextActive}>
-                                {page}
+                              style={styles.itemProduct}>
+                              <Image
+                                style={styles.itemImgProduct}
+                                source={{
+                                  uri: item.img,
+                                }}
+                              />
+                              <Text style={styles.itemText}>{item.name}</Text>
+                              <Text style={{color: 'black'}}>{item.size}</Text>
+                              <Text style={styles.itemPrice}>
+                                IDR {item.price}
                               </Text>
                             </TouchableOpacity>
                           </>
-                        ) : (
-                          <>
-                            <TouchableOpacity
-                              style={styles.bullet}
-                              onPress={() =>
-                                paginationHandler(
-                                  `/product?limit=12&page=${page}${
-                                    (categoryValue === '') |
-                                    (categoryValue === 'all')
-                                      ? ''
-                                      : '&category=' + categoryValue
-                                  }`,
-                                )
-                              }>
-                              <Text style={styles.bulletText}>{page}</Text>
-                            </TouchableOpacity>
-                          </>
-                        ),
-                      )}
-
-                      {pagination.next !== undefined ? (
-                        <TouchableOpacity
-                          onPress={() => paginationHandler(pagination.next)}
-                          style={styles.bulletBtn}>
-                          <Text style={styles.bulletTextBtn}>Next</Text>
-                        </TouchableOpacity>
+                        )}
+                      />
+                      {Load === true ? (
+                        <>
+                          <View
+                            style={{
+                              width: '100%',
+                              position: 'absolute',
+                              marginTop: '20%',
+                              alignItems: 'center',
+                            }}>
+                            <ActivityIndicator size={'large'} color="#6A4029" />
+                          </View>
+                        </>
                       ) : (
                         ''
                       )}
                     </View>
-                  </>
-                ) : (
-                  ''
-                )}
+                  </View>
+                </View>
               </>
             ) : (
               <>
@@ -577,7 +434,7 @@ const Product = ({route, navigation}) => {
                 </View>
               </>
             )}
-          </ScrollView>
+          </View>
         </>
       )}
     </>

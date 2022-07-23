@@ -47,7 +47,7 @@ export default StyleSheet.create({
   },
   menuBar: {
     marginLeft: '10%',
-    marginTop: 36,
+    marginTop: 10,
     minHeight: 30,
   },
   listMenu: {
@@ -134,14 +134,14 @@ export default StyleSheet.create({
   // product item
   boxProduct: {
     width: '100%',
+    height: '50%',
+    marginBottom: 50,
   },
   listItemProduct: {
     width: '90%',
     height: 'auto',
     marginTop: 20,
     marginHorizontal: '5%',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   itemProduct: {
     marginBottom: 20,

@@ -209,7 +209,7 @@ export default StyleSheet.create({
   },
   // reset pass
   //   pass form
-  inputPass: {
+  inputPassReset: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -221,7 +221,7 @@ export default StyleSheet.create({
     color: 'white',
     lineHeight: 21,
   },
-  inputFormPass: {
+  inputFormPassReset: {
     flex: 9,
     color: 'black',
     fontFamily: 'Poppins-Reguler',
