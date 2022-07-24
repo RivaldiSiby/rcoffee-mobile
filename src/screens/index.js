@@ -41,6 +41,7 @@ import Resetpass from './auth/resetpass';
 import Transaction from './dashboard/transaction';
 import Cart404 from './notfound/transaction';
 import AddProduct from './admin/product';
+import AddPromo from './admin/promo';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -427,6 +428,42 @@ function Router() {
                     color: 'black',
                   }}>
                   New Product
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="AddPromo"
+          component={AddPromo}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  New Promo
                 </Text>
               </View>
             ),

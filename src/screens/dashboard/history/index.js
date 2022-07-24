@@ -22,6 +22,7 @@ import {GenerateToken} from '../../../modules/auth/checkAuth';
 import {successLogin} from '../../../redux/actionCreator/login';
 import ModalConfirm from '../../component/modals/ModalConfirm';
 import {deleteTransaction} from '../../../modules/transaction/deleteTransaction';
+import {doneTransaction} from '../../../modules/transaction/doneTransaction';
 
 const History = ({navigation}) => {
   const dispatch = useDispatch();
@@ -32,7 +33,15 @@ const History = ({navigation}) => {
   const [data, setData] = useState(0);
   const [limit, setLimit] = useState(6);
   const [visible, setVisible] = useState(false);
+  const [handler, setHandler] = useState(
+    user.role === 'admin' ? 'done' : 'delete',
+  );
   const [id, setId] = useState([]);
+  const [msg, setMsg] = useState(
+    user.role === 'admin'
+      ? 'to confirm done the transaction'
+      : 'to delete the transaction',
+  );
   useEffect(() => {
     const getHistoryUser = async () => {
       try {
@@ -83,7 +92,36 @@ const History = ({navigation}) => {
       const data = {id: id};
       await deleteTransaction(data, token);
       setLimit(6);
-      setProduct([]);
+
+      dispatch(doneLoading());
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(doneLoading());
+      if (error.request.status !== 400) {
+        if (error.request.status === 401) {
+          dispatch(failLogin());
+          navigation.navigate('Login');
+        }
+        //   const screen = ErrorsHandler(error.request.status);
+        //   console.log(screen);
+        //   navigation.navigate(screen);
+      }
+    }
+  };
+  const confirmHandler = async () => {
+    try {
+      dispatch(isLoading());
+      // cek token
+      const token = await GenerateToken(login);
+      let newToken = login;
+      newToken['tokenkey'] = token;
+      dispatch(successLogin(newToken));
+      //  confirm transaction
+      const data = {id: id};
+      await doneTransaction(data, token);
+      setLimit(6);
+
       dispatch(doneLoading());
     } catch (error) {
       console.log(error);
@@ -107,8 +145,8 @@ const History = ({navigation}) => {
         animationOut={'zoomOut'}
         isVisible={visible}>
         <ModalConfirm
-          handler={deleteHandler}
-          msg={'to delete the transaction'}
+          handler={handler === 'delete' ? deleteHandler : confirmHandler}
+          msg={msg}
           cb={setVisible}
         />
       </ReactNativeModal>
@@ -124,7 +162,11 @@ const History = ({navigation}) => {
             name="hand-left-outline"
             color={'black'}
             size={20}></Ionicons>
-          <Text style={styles.textTriger}>swipe on an item to delete</Text>
+          <Text style={styles.textTriger}>
+            {user.role === 'admin'
+              ? 'swipe on an item when it’s done'
+              : 'swipe on an item to delete'}
+          </Text>
         </View>
         <View
           style={{
@@ -179,6 +221,7 @@ const History = ({navigation}) => {
                             <Text style={styles.textDate}>
                               {item.created_at.split('T')[0]}
                             </Text>
+                            <Text style={styles.textPrice}>{item.status}</Text>
                           </View>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -195,7 +238,11 @@ const History = ({navigation}) => {
                             borderRadius: 100,
                           }}>
                           <Ionicons
-                            name="trash-outline"
+                            name={
+                              user.role === 'admin'
+                                ? 'checkmark-outline'
+                                : 'trash-outline'
+                            }
                             color={'white'}
                             size={16}></Ionicons>
                         </TouchableOpacity>

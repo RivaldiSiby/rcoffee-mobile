@@ -238,12 +238,18 @@ const Product = ({route, navigation}) => {
               </TouchableOpacity>
               <View style={{marginLeft: 15}}>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('AddProduct')}
+                  onPress={() => {
+                    setAdd(false);
+                    navigation.navigate('AddProduct');
+                  }}
                   style={styles.addBtn}>
                   <Text style={styles.addText}>New product</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => setAdd(true)}
+                  onPress={() => {
+                    setAdd(false);
+                    navigation.navigate('AddPromo');
+                  }}
                   style={styles.addBtn}>
                   <Text style={styles.addText}>New promo</Text>
                 </TouchableOpacity>
