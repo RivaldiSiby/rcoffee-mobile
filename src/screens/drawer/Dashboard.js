@@ -3,7 +3,7 @@ import {
   createDrawerNavigator,
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
-import {Image, Text, View, TouchableOpacity} from 'react-native';
+import {Image, Text, View, TouchableOpacity, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Material from 'react-native-vector-icons/MaterialCommunityIcons';
 import Awesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -15,6 +15,7 @@ import {clearUser} from '../../redux/actionCreator/user';
 import {LogoutHandler} from '../../modules/auth/LogoutHandler';
 import {doneLoading, isLoading} from '../../redux/actionCreator/loading';
 import Loading from '../component/loading';
+import {Link} from '@react-navigation/native';
 const Drawer = createDrawerNavigator();
 
 function DrawerDashboard({navigation}) {
@@ -62,26 +63,51 @@ function DrawerDashboard({navigation}) {
           </View>
           <View style={style.menuContainer}>
             <View>
-              <View style={style.menuList}>
+              <Pressable
+                style={style.menuList}
+                onPress={() =>
+                  navigation.navigate('EditProfile', {edit: 'profile'})
+                }>
                 <Ionicons
                   name="person-circle-outline"
                   size={22}
                   color="#6A4029"
                 />
                 <Text style={style.menuText}>Edit Profile</Text>
-              </View>
-              <View style={style.menuList}>
+              </Pressable>
+              <Pressable
+                onPress={() => navigation.navigate('History')}
+                style={style.menuList}>
                 <Material name="cart-arrow-down" size={22} color="#6A4029" />
                 <Text style={style.menuText}>Orders</Text>
-              </View>
-              <View style={style.menuList}>
+              </Pressable>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('Product', {categoryKey: 'all'})
+                }
+                style={style.menuList}>
                 <Ionicons name="fast-food-outline" size={22} color="#6A4029" />
                 <Text style={style.menuText}>All menu</Text>
-              </View>
-              <View style={style.menuList}>
-                <Ionicons name="newspaper-outline" size={22} color="#6A4029" />
-                <Text style={style.menuText}>Privacy policy</Text>
-              </View>
+              </Pressable>
+              {user.role === 'costumer' ? (
+                <>
+                  <View style={style.menuList}>
+                    <Ionicons
+                      name="newspaper-outline"
+                      size={22}
+                      color="#6A4029"
+                    />
+                    <Text style={style.menuText}>Privacy policy</Text>
+                  </View>
+                </>
+              ) : (
+                <>
+                  <View style={style.menuList}>
+                    <Ionicons name="reader-outline" size={22} color="#6A4029" />
+                    <Text style={style.menuText}>Sales Report</Text>
+                  </View>
+                </>
+              )}
               <View style={style.menuList}>
                 <Awesome5 name="shield-alt" size={22} color="#6A4029" />
                 <Text style={style.menuText}>Security</Text>

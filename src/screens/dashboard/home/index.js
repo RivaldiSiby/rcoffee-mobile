@@ -22,6 +22,7 @@ const Home = ({navigation, route}) => {
   const {notif} = route.params;
   const login = useSelector(state => state.login);
   const Load = useSelector(state => state.loading.status);
+  const user = useSelector(state => state.user.user);
   const dispatch = useDispatch();
   const [favorite, setFavorite] = useState(true);
   const [promo, setPromo] = useState(false);
@@ -31,6 +32,7 @@ const Home = ({navigation, route}) => {
   const [product, setProduct] = useState([]);
   const [categoryKey, setCategoryKey] = useState('favorite');
   const [visible, setVisible] = useState(false);
+  const [add, setAdd] = useState(false);
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -147,6 +149,68 @@ const Home = ({navigation, route}) => {
             isVisible={visible}>
             <ModalSuccess msg={notif} cb={setVisible} />
           </ReactNativeModal>
+          <ReactNativeModal
+            animationIn={'fadeIn'}
+            animationOut={'fadeOut'}
+            isVisible={add}>
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 5,
+                margin: 0,
+                left: '5%',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={() => setAdd(false)}
+                style={{
+                  width: 50,
+                  height: 50,
+                  backgroundColor: '#6A4029',
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Ionicons
+                  color={'white'}
+                  size={35}
+                  name="add-outline"></Ionicons>
+              </TouchableOpacity>
+              <View style={{marginLeft: 15}}>
+                <TouchableOpacity
+                  onPress={() => setAdd(true)}
+                  style={styles.addBtn}>
+                  <Text style={styles.addText}>New product</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setAdd(true)}
+                  style={styles.addBtn}>
+                  <Text style={styles.addText}>New promo</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </ReactNativeModal>
+          {add === true ? (
+            ''
+          ) : (
+            <TouchableOpacity
+              onPress={() => setAdd(true)}
+              style={{
+                position: 'absolute',
+                bottom: 20,
+                width: 50,
+                left: '10%',
+                height: 50,
+                zIndex: 11,
+                backgroundColor: '#6A4029',
+                borderRadius: 100,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Ionicons color={'white'} size={35} name="add-outline"></Ionicons>
+            </TouchableOpacity>
+          )}
           <ScrollView style={styles.containerMain}>
             <Text style={styles.headerText}>A good coffee is a good day</Text>
             <View style={styles.searchInput}>
@@ -236,24 +300,47 @@ const Home = ({navigation, route}) => {
               <ScrollView horizontal vertical={false} style={styles.listItem}>
                 {product.map(list => (
                   <>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate('Detail', {
-                          id: list.id,
-                          size: list.size,
-                        })
-                      }
-                      style={styles.item}>
-                      <Image
-                        style={styles.itemImg}
-                        source={{
-                          uri: list.img,
-                        }}
-                      />
-                      <Text style={styles.itemText}>{list.name}</Text>
-                      <Text style={{color: 'black'}}>{list.size}</Text>
-                      <Text style={styles.itemPrice}>IDR {list.price}</Text>
-                    </TouchableOpacity>
+                    {user.role === 'admin' ? (
+                      <>
+                        <View style={styles.item}>
+                          <Image
+                            style={styles.itemImg}
+                            source={{
+                              uri: list.img,
+                            }}
+                          />
+                          <TouchableOpacity style={styles.iconEdit}>
+                            <Ionicons
+                              color={'white'}
+                              size={17}
+                              name="pencil-outline"></Ionicons>
+                          </TouchableOpacity>
+                          <Text style={styles.itemText}>{list.name}</Text>
+                          <Text style={{color: 'black'}}>{list.size}</Text>
+                          <Text style={styles.itemPrice}>IDR {list.price}</Text>
+                        </View>
+                      </>
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('Detail', {
+                            id: list.id,
+                            size: list.size,
+                          })
+                        }
+                        style={styles.item}>
+                        <Image
+                          style={styles.itemImg}
+                          source={{
+                            uri: list.img,
+                          }}
+                        />
+
+                        <Text style={styles.itemText}>{list.name}</Text>
+                        <Text style={{color: 'black'}}>{list.size}</Text>
+                        <Text style={styles.itemPrice}>IDR {list.price}</Text>
+                      </TouchableOpacity>
+                    )}
                   </>
                 ))}
               </ScrollView>

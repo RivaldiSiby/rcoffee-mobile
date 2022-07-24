@@ -39,6 +39,7 @@ import Activation from './auth/activation';
 import Codepass from './auth/codepass';
 import Resetpass from './auth/resetpass';
 import Transaction from './dashboard/transaction';
+import Cart404 from './notfound/transaction';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -95,7 +96,7 @@ function HomeNav({navigation}) {
                 />
                 <Link
                   style={{marginRight: 20}}
-                  to={cart.length === 0 ? '/Order' : '/Cart'}>
+                  to={cart.length === 0 ? '/Cart404' : '/Cart'}>
                   <Ionicons
                     style={{marginRight: 20}}
                     name="cart-outline"
@@ -539,7 +540,7 @@ function Router() {
           }}
         />
         <Stack.Screen
-          name="Order"
+          name="Order404"
           component={Order404}
           options={{
             headerTitle: '',
@@ -575,6 +576,42 @@ function Router() {
           }}
         />
         <Stack.Screen
+          name="Cart404"
+          component={Cart404}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Cart
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
           name="Detail"
           component={Detail}
           options={{
@@ -592,7 +629,7 @@ function Router() {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Link to={cart.length === 0 ? '/Order' : '/Cart'}>
+                <Link to={cart.length === 0 ? '/Cart404' : '/Cart'}>
                   <Ionicons
                     style={{marginRight: 20}}
                     name="cart-outline"

@@ -67,10 +67,13 @@ const Login = ({navigation, route}) => {
       if (result.data.data.datauser.status === 'inactive') {
         navigation.replace('Activation');
       } else {
-        sendLocalNotification(
-          'Hi, welcome customer',
-          `don't forget to drink coffee and eat something`,
-        );
+        if (result.data.data.datauser.role === 'costumer') {
+          sendLocalNotification(
+            'Hi, welcome customer',
+            `don't forget to drink coffee and eat something`,
+          );
+        }
+
         navigation.replace('Home', {
           screen: 'Home',
           params: {notif: 'Login Success'},

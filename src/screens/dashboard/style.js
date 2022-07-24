@@ -223,22 +223,46 @@ export default StyleSheet.create({
     lineHeight: 26,
     color: 'white',
   },
-  // next and prev
-  bulletBtn: {
-    width: '15%',
-    marginHorizontal: '2%',
-    height: 50,
+  // icon edit home
+  iconEdit: {
+    marginTop: -30,
+    marginLeft: 135,
+    marginBottom: 15,
+    backgroundColor: '#6A4029',
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  // icon edit Product
+  iconEditProduct: {
+    marginTop: -40,
+    marginBottom: 20,
+    marginLeft: 95,
+    backgroundColor: '#6A4029',
+    width: 30,
+    height: 30,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  // add product
+  addBtn: {
+    width: 130,
+    height: 40,
     backgroundColor: '#FFBA33',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 10,
   },
-  bulletTextBtn: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: 15,
+  addText: {
+    fontFamily: 'Roboto',
+    fontSize: 12,
     fontStyle: 'normal',
     fontWeight: '700',
-    lineHeight: 26,
-    color: 'black',
+    lineHeight: 14,
+    color: 'rgba(106, 64, 41, 1)',
   },
 });

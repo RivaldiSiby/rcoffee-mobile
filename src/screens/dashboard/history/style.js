@@ -37,12 +37,13 @@ export default StyleSheet.create({
   },
   boxItem: {
     backgroundColor: 'white',
-    marginHorizontal: '10%',
+    // marginHorizontal: '10%',
     marginVertical: '5%',
     padding: '5%',
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 20,
+    width: 275,
   },
   boxInfo: {
     paddingHorizontal: '10%',
