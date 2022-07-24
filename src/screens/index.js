@@ -40,6 +40,7 @@ import Codepass from './auth/codepass';
 import Resetpass from './auth/resetpass';
 import Transaction from './dashboard/transaction';
 import Cart404 from './notfound/transaction';
+import AddProduct from './admin/product';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -396,8 +397,8 @@ function Router() {
           }}
         />
         <Stack.Screen
-          name="EditProfile"
-          component={EditProfile}
+          name="AddProduct"
+          component={AddProduct}
           options={{
             headerTitle: '',
             titleStyle: {
@@ -425,7 +426,7 @@ function Router() {
                     lineHeight: 27,
                     color: 'black',
                   }}>
-                  Edit Profile
+                  New Product
                 </Text>
               </View>
             ),

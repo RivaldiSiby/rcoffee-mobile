@@ -227,7 +227,6 @@ export default StyleSheet.create({
   iconEdit: {
     marginTop: -30,
     marginLeft: 135,
-    marginBottom: 15,
     backgroundColor: '#6A4029',
     width: 30,
     height: 30,

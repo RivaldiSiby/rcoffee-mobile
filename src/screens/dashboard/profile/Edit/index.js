@@ -212,6 +212,7 @@ const EditProfile = ({navigation, route}) => {
             animationOut={'zoomOut'}
             isVisible={visible}>
             <ModalImg
+              icon={'person-circle-outline'}
               msg={''}
               cb={setVisible}
               opencam={openCam}

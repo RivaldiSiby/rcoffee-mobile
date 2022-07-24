@@ -2,7 +2,16 @@ import {TouchableOpacity, View, Text, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, {useState} from 'react';
 
-const ModalImg = ({msg, cb, opencam, openstorage, img = false, save, file}) => {
+const ModalImg = ({
+  icon,
+  msg,
+  cb,
+  opencam,
+  openstorage,
+  img = false,
+  save,
+  file,
+}) => {
   return (
     <View>
       <View
@@ -15,10 +24,7 @@ const ModalImg = ({msg, cb, opencam, openstorage, img = false, save, file}) => {
         }}>
         <View>
           {img === false ? (
-            <Ionicons
-              name="person-circle-outline"
-              color={'#9F9F9F'}
-              size={150}></Ionicons>
+            <Ionicons name={icon} color={'#9F9F9F'} size={150}></Ionicons>
           ) : (
             <Image
               style={{
