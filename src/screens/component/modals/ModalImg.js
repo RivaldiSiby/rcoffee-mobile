@@ -106,8 +106,8 @@ const ModalImg = ({
           <TouchableOpacity
             onPress={() => {
               cb(false);
-              save(img.view);
-              file(img.path);
+              save(img === false ? null : img.view);
+              file(img === false ? null : img.path);
             }}
             style={{
               width: '62%',

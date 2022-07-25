@@ -72,9 +72,6 @@ const EditProfile = ({navigation, route}) => {
   const [isError, setIsError] = useState(false);
   const [Msg, setMsg] = useState(false);
 
-  useEffect(() => {
-    console.log(user);
-  }, []);
   const openCam = async () => {
     try {
       const camera = await launchCamera({saveToPhotos: true});

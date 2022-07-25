@@ -8,6 +8,8 @@ import Loading from '../../component/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {addChart} from '../../../redux/actionCreator/chart';
 import ReactNativeModal from 'react-native-modal';
+import {addProduct} from '../../../redux/actionCreator/product';
+import ErrorsHandler from '../../../helper/errorHandler';
 
 const Detail = ({route, navigation}) => {
   // data
@@ -15,8 +17,8 @@ const Detail = ({route, navigation}) => {
   const [products, setProducts] = useState([]);
   const [productDetail, setProductDetail] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const {id, size} = route.params;
-  const login = useSelector(state => state.login);
+  const user = useSelector(state => state.user.user);
+  const product = useSelector(state => state.product.product);
   const chart = useSelector(state => state.chart);
   const Load = useSelector(state => state.loading.status);
   const [visible, setVisible] = useState(false);
@@ -25,11 +27,12 @@ const Detail = ({route, navigation}) => {
       try {
         dispatch(isLoading());
         // get product detail
-        const product = await getProductDetail(id);
+        console.log(product);
+        const result = await getProductDetail(product.id);
 
-        setProducts(product.data.data);
-        product.data.data.map(product =>
-          product.size === size ? setProductDetail(product) : '',
+        setProducts(result.data.data);
+        result.data.data.map(item =>
+          item.size === product.size ? setProductDetail(item) : '',
         );
         dispatch(doneLoading());
       } catch (error) {
@@ -84,15 +87,12 @@ const Detail = ({route, navigation}) => {
     }
   };
   const sizeHandler = size => {
-    products.map(product =>
-      product.size === size ? setProductDetail(product) : '',
-    );
+    products.map(item => (item.size === size ? setProductDetail(item) : ''));
 
-    navigation.navigate('Detail', {
-      id: id,
-      size: size,
-    });
     setQuantity(1);
+    dispatch(addProduct(productDetail));
+
+    // navigation.navigate('Detail');
   };
   return (
     <>
@@ -183,29 +183,33 @@ const Detail = ({route, navigation}) => {
                   }}>
                   <Text style={styles.textHeading}>Choose a size</Text>
                 </View>
-                {products.map(product =>
-                  product.size === productDetail.size ? (
+                {products.map(item =>
+                  item.size === productDetail.size ? (
                     <TouchableOpacity
-                      onPress={() => sizeHandler(product.size)}
+                      onPress={() => sizeHandler(item.size)}
                       style={styles.bulletActive}>
-                      <Text style={styles.textBulletActive}>
-                        {product.size}
-                      </Text>
+                      <Text style={styles.textBulletActive}>{item.size}</Text>
                     </TouchableOpacity>
                   ) : (
                     <TouchableOpacity
-                      onPress={() => sizeHandler(product.size)}
+                      onPress={() => sizeHandler(item.size)}
                       style={styles.bullet}>
-                      <Text style={styles.textBullet}>{product.size}</Text>
+                      <Text style={styles.textBullet}>{item.size}</Text>
                     </TouchableOpacity>
                   ),
                 )}
               </View>
-              <TouchableOpacity
-                onPress={() => addChartHandler()}
-                style={styles.btnDetail}>
-                <Text style={styles.textBtnDetail}>Add to cart</Text>
-              </TouchableOpacity>
+              {user.role === 'admin' ? (
+                ''
+              ) : (
+                <>
+                  <TouchableOpacity
+                    onPress={() => addChartHandler()}
+                    style={styles.btnDetail}>
+                    <Text style={styles.textBtnDetail}>Add to cart</Text>
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           </ScrollView>
         </>

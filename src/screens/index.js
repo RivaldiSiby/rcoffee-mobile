@@ -42,6 +42,7 @@ import Transaction from './dashboard/transaction';
 import Cart404 from './notfound/transaction';
 import AddProduct from './admin/product';
 import AddPromo from './admin/promo';
+import EditProduct from './dashboard/detail/edit';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -139,6 +140,7 @@ function HomeNav({navigation}) {
 // Main router navigate
 function Router() {
   const cart = useSelector(state => state.chart.chart);
+  const user = useSelector(state => state.user.user);
   return (
     <>
       <StatusBar barStyle={'light-content'} />
@@ -257,6 +259,7 @@ function Router() {
             ),
           }}
         />
+
         <Stack.Screen
           name="Profile"
           component={Profile}
@@ -287,6 +290,42 @@ function Router() {
                     lineHeight: 27,
                     color: 'black',
                   }}></Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfile}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Edit Profile
+                </Text>
               </View>
             ),
           }}
@@ -667,12 +706,63 @@ function Router() {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Link to={cart.length === 0 ? '/Cart404' : '/Cart'}>
+                {user.role === 'admin' ? (
+                  <Link to={'/EditProduct'}>
+                    <Ionicons
+                      style={{marginRight: 20}}
+                      name="pencil-outline"
+                      size={24}
+                      color="#6A4029"
+                    />
+                  </Link>
+                ) : (
+                  <Link to={cart.length === 0 ? '/Cart404' : '/Cart'}>
+                    <Ionicons
+                      style={{marginRight: 20}}
+                      name="cart-outline"
+                      size={24}
+                      color="black"
+                    />
+                  </Link>
+                )}
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="EditProduct"
+          component={EditProduct}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <Link
+                  to={'/EditProduct'}
+                  style={{
+                    width: 35,
+                    height: 35,
+                    borderRadius: 100,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: 10,
+                    backgroundColor: '#6A4029',
+                  }}>
                   <Ionicons
                     style={{marginRight: 20}}
-                    name="cart-outline"
-                    size={24}
-                    color="black"
+                    name="trash-outline"
+                    size={15}
+                    color="white"
                   />
                 </Link>
               </View>

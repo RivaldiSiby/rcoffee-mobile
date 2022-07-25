@@ -17,6 +17,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {GenerateToken} from '../../../modules/auth/checkAuth';
 import ReactNativeModal from 'react-native-modal';
 import ModalSuccess from '../../component/modals/ModalSuccess';
+import {addProduct} from '../../../redux/actionCreator/product';
 
 const Home = ({navigation, route}) => {
   const {notif} = route.params;
@@ -324,7 +325,12 @@ const Home = ({navigation, route}) => {
                               uri: list.img,
                             }}
                           />
-                          <TouchableOpacity style={styles.iconEdit}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              dispatch(addProduct(list));
+                              navigation.navigate('Detail');
+                            }}
+                            style={styles.iconEdit}>
                             <Ionicons
                               color={'white'}
                               size={17}
@@ -337,12 +343,10 @@ const Home = ({navigation, route}) => {
                       </>
                     ) : (
                       <TouchableOpacity
-                        onPress={() =>
-                          navigation.navigate('Detail', {
-                            id: list.id,
-                            size: list.size,
-                          })
-                        }
+                        onPress={() => {
+                          dispatch(addProduct(list));
+                          navigation.navigate('Detail');
+                        }}
                         style={styles.item}>
                         <Image
                           style={styles.itemImg}

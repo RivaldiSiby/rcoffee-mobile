@@ -21,6 +21,7 @@ import {searchProducts} from '../../../modules/products/searchProducts';
 import SelectDropdown from 'react-native-select-dropdown';
 import {getProductsAll} from '../../../modules/products/getProductsAll';
 import ReactNativeModal from 'react-native-modal';
+import {addProduct} from '../../../redux/actionCreator/product';
 
 const scroll = React.createRef();
 
@@ -466,6 +467,9 @@ const Product = ({route, navigation}) => {
                                   }}
                                 />
                                 <TouchableOpacity
+                                  onPress={() => {
+                                    navigation.navigate('EditProduct');
+                                  }}
                                   style={styles.iconEditProduct}>
                                   <Ionicons
                                     color={'white'}
@@ -482,12 +486,10 @@ const Product = ({route, navigation}) => {
                               </View>
                             ) : (
                               <TouchableOpacity
-                                onPress={() =>
-                                  navigation.navigate('Detail', {
-                                    id: item.id,
-                                    size: item.size,
-                                  })
-                                }
+                                onPress={() => {
+                                  dispatch(addProduct(item));
+                                  navigation.navigate('Detail');
+                                }}
                                 style={styles.itemProduct}>
                                 <Image
                                   style={styles.itemImgProduct}
