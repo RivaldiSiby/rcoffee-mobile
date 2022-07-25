@@ -102,10 +102,12 @@ function DrawerDashboard({navigation}) {
                 </>
               ) : (
                 <>
-                  <View style={style.menuList}>
+                  <Pressable
+                    onPress={() => navigation.navigate('Report')}
+                    style={style.menuList}>
                     <Ionicons name="reader-outline" size={22} color="#6A4029" />
                     <Text style={style.menuText}>Sales Report</Text>
-                  </View>
+                  </Pressable>
                 </>
               )}
               {user.role === 'admin' ? (
