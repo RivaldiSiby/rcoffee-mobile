@@ -108,10 +108,20 @@ function DrawerDashboard({navigation}) {
                   </View>
                 </>
               )}
-              <View style={style.menuList}>
-                <Awesome5 name="shield-alt" size={22} color="#6A4029" />
-                <Text style={style.menuText}>Security</Text>
-              </View>
+              {user.role === 'admin' ? (
+                <Pressable
+                  onPress={() => navigation.navigate('Coupon')}
+                  style={style.menuList}>
+                  <Ionicons
+                    name="megaphone-outline"
+                    size={22}
+                    color="#6A4029"
+                  />
+                  <Text style={style.menuText}>Promo</Text>
+                </Pressable>
+              ) : (
+                ''
+              )}
             </View>
             <View style={style.menuList}>
               <TouchableOpacity onPress={() => logoutUserHandler()}>

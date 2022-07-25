@@ -190,7 +190,7 @@ const Home = ({navigation, route}) => {
                 <TouchableOpacity
                   onPress={() => {
                     setAdd(false);
-                    navigation.navigate('AddPromo');
+                    navigation.navigate('AddPromo', {id: null});
                   }}
                   style={styles.addBtn}>
                   <Text style={styles.addText}>New promo</Text>

@@ -12,10 +12,11 @@ import {getPromo} from '../../../modules/promos/getPromo';
 const Coupon = ({navigation}) => {
   const dispatch = useDispatch();
   const login = useSelector(state => state.login);
-
+  const user = useSelector(state => state.user.user);
   const Load = useSelector(state => state.loading.status);
   const [promos, setPromos] = useState([]);
   const [coupon, setCoupon] = useState('');
+  const [id, setId] = useState('');
 
   useEffect(() => {
     const getPromosUser = async () => {
@@ -50,13 +51,16 @@ const Coupon = ({navigation}) => {
                 horizontal
                 vertical={false}
                 style={{
-                  marginHorizontal: '10%',
+                  paddingLeft: '10%',
                   marginTop: 36,
                   minHeight: 30,
                 }}>
                 {promos.map(item => (
                   <TouchableOpacity
-                    onPress={() => setCoupon(item.coupon)}
+                    onPress={() => {
+                      setCoupon(item.coupon);
+                      setId(item.id);
+                    }}
                     style={
                       coupon === item.coupon ? styles.promoActive : styles.promo
                     }>
@@ -77,11 +81,25 @@ const Coupon = ({navigation}) => {
                 ))}
               </ScrollView>
             </View>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Cart', {coupon: coupon})}
-              style={styles.btnRegis}>
-              <Text style={styles.textBtnRegis}>Apply Coupon</Text>
-            </TouchableOpacity>
+            {coupon === '' ? (
+              <TouchableOpacity style={styles.btnRegis}>
+                <Text style={styles.textBtnRegis}>
+                  {user.role === 'admin' ? 'Edit Promo' : 'Apply Coupon'}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                onPress={() =>
+                  user.role === 'admin'
+                    ? navigation.replace('AddPromo', {id: id})
+                    : navigation.navigate('Cart', {coupon: coupon})
+                }
+                style={styles.btnRegisActive}>
+                <Text style={styles.textBtnRegisActive}>
+                  {user.role === 'admin' ? 'Edit Promo' : 'Apply Coupon'}
+                </Text>
+              </TouchableOpacity>
+            )}
           </ScrollView>
         </>
       )}

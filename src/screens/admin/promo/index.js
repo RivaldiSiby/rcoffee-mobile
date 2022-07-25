@@ -31,14 +31,18 @@ import SelectDropdown from 'react-native-select-dropdown';
 import {sendLocalNotification} from '../../../helper/notifications';
 import {getProductsName} from '../../../modules/products/getProductName';
 import {addPromo} from '../../../modules/promos/addPromo';
+import {updatePromo} from '../../../modules/promos/updatePromo';
+import {promoDetail} from '../../../modules/promos/promoDetail';
 
 const AddPromo = ({navigation, route}) => {
+  const {id} = route.params;
   const login = useSelector(state => state.login.auth);
   const user = useSelector(state => state.user.user);
   const Load = useSelector(state => state.loading.status);
   const dispatch = useDispatch();
   const [Name, setName] = useState(null);
   const [Product, setProduct] = useState(null);
+  const [ProductView, setProductView] = useState(null);
   const [Description, setDescription] = useState(null);
   const [Discount, setDiscount] = useState(null);
   const [size, setSize] = useState(null);
@@ -70,8 +74,37 @@ const AddPromo = ({navigation, route}) => {
         dispatch(successLogin(newToken));
         //  get product by name
         const result = await getProductsName(token);
+
         setProducts(result.data.data);
-        console.log(result.data.data);
+        if (id !== null) {
+          const data = await promoDetail(token, id);
+          // set color dropdown product
+          setColorSelect('black');
+          // setdata
+          setImg(data.data.data.img);
+          setCoupon(data.data.data.coupon);
+          setProductView(
+            result.data.data.find(item => item.id === data.data.data.product_id)
+              .name,
+          );
+          setProduct(data.data.data.product_id);
+          setName(data.data.data.name);
+          setDiscount((parseFloat(data.data.data.discount) * 100).toString());
+          setDescription(data.data.data.description);
+          setDatestart(data.data.data.period_start);
+          setDateend(data.data.data.expire);
+          setSize(data.data.data.size);
+          //  cek size
+          if (data.data.data.size === 'reguler') {
+            setReguler(true);
+          }
+          if (data.data.data.size === 'small') {
+            setSmall(true);
+          }
+          if (data.data.data.size === 'large') {
+            setLarge(true);
+          }
+        }
         dispatch(doneLoading());
       } catch (error) {
         console.log(error);
@@ -151,7 +184,6 @@ const AddPromo = ({navigation, route}) => {
       newToken['tokenkey'] = token;
       dispatch(successLogin(newToken));
       // add product
-      console.log(FormPromo);
       await addPromo(token, FormPromo);
       navigation.replace('Home', {
         screen: 'Home',
@@ -173,7 +205,82 @@ const AddPromo = ({navigation, route}) => {
       }
     }
   };
+  // update Promo
+  const updateHandler = async () => {
+    try {
+      dispatch(isLoading());
+      // set data
+      let FormPromo = new FormData();
+      let imgData;
+      if (file !== null) {
+        imgData = {
+          uri: file.assets[0].uri,
+          size: file.assets[0].fileSize,
+          name: file.assets[0].fileName,
+          type: file.assets[0].type,
+        };
+      }
+      file !== null ? FormPromo.append('photo', imgData) : setFile(null);
+      Name !== null ? FormPromo.append('name', Name) : setName(null);
+      Product !== null
+        ? FormPromo.append('product_id', Product)
+        : setProduct(null);
+      size !== null ? FormPromo.append('size', size) : setSize(null);
+      dateend !== null
+        ? FormPromo.append(
+            'expire',
+            typeof dateend === 'string' ? dateend : dateend.toISOString(),
+          )
+        : setDateend(null);
+      datestart !== null
+        ? FormPromo.append(
+            'period_start',
+            typeof datestart === 'string' ? datestart : datestart.toISOString(),
+          )
+        : setDatestart(null);
+      Discount !== null
+        ? FormPromo.append(
+            'discount',
+            typeof Discount === 'string'
+              ? (parseInt(Discount) / 100).toString()
+              : Discount.toString(),
+          )
+        : setDiscount(null);
+      Coupon !== null ? FormPromo.append('coupon', Coupon) : setCoupon(null);
+      Description !== null
+        ? FormPromo.append('description', Description)
+        : setDescription(null);
 
+      // cek token
+      const token = await GenerateToken(login);
+      let newToken = login;
+      newToken['tokenkey'] = token;
+      dispatch(successLogin(newToken));
+      // add product
+      await updatePromo(token, FormPromo, id);
+      navigation.replace('Home', {
+        screen: 'Home',
+        params: {notif: 'Promo updated successfully'},
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch(doneLoading());
+      setIsError(true);
+      setMsg(error.response.data.message);
+      if (error.request.status !== 400) {
+        if (error.request.status === 401) {
+          dispatch(failLogin());
+          navigation.navigate('Login');
+        }
+        //   const screen = ErrorsHandler(error.request.status);
+        //   console.log(screen);
+        //   navigation.navigate(screen);
+      }
+    }
+  };
+  {
+    Discount;
+  }
   return (
     <>
       {Load === true ? (
@@ -256,12 +363,16 @@ const AddPromo = ({navigation, route}) => {
                     flex: 1,
                   }}
                   defaultButtonText={'Select Product'}
+                  defaultValue={ProductView}
                   data={Products.map(item => item.name)}
                   selectedRowStyle={{color: 'red'}}
                   onSelect={(selectedItem, index) => {
                     setColorSelect('black');
                     setProduct(
                       Products.find(item => item.name === selectedItem).id,
+                    );
+                    setProductView(
+                      Products.find(item => item.name === selectedItem).name,
                     );
                   }}
                 />
@@ -353,6 +464,8 @@ const AddPromo = ({navigation, route}) => {
                     }>
                     {datestart === null
                       ? 'Type the start date for the promo'
+                      : typeof datestart === 'string'
+                      ? datestart.split('T')[0]
                       : datestart.toISOString().split('T')[0]}
                   </Text>
                   <TouchableOpacity onPress={() => setOpen1(true)}>
@@ -387,6 +500,8 @@ const AddPromo = ({navigation, route}) => {
                     }>
                     {dateend === null
                       ? 'Type the expire date for the promo'
+                      : typeof dateend === 'string'
+                      ? dateend.split('T')[0]
                       : dateend.toISOString().split('T')[0]}
                   </Text>
                   <TouchableOpacity onPress={() => setOpen2(true)}>
@@ -425,8 +540,8 @@ const AddPromo = ({navigation, route}) => {
 
             <TouchableOpacity
               style={styles.btnRegis}
-              onPress={() => createHandler()}>
-              <Text style={styles.textBtnRegis}>Save product</Text>
+              onPress={() => (id === null ? createHandler() : updateHandler())}>
+              <Text style={styles.textBtnRegis}>Save Promo</Text>
             </TouchableOpacity>
           </ScrollView>
         </>

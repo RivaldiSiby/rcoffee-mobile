@@ -103,40 +103,78 @@ const ModalImg = ({
           </TouchableOpacity>
         </>
         <>
-          <TouchableOpacity
-            onPress={() => {
-              cb(false);
-              save(img === false ? null : img.view);
-              file(img === false ? null : img.path);
-            }}
-            style={{
-              width: '62%',
-              backgroundColor: '#FFBA33',
-              borderRadius: 20,
-              height: 50,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: 20,
-              marginVertical: 10,
-              flexDirection: 'row',
-              paddingHorizontal: 10,
-            }}>
-            <Ionicons name="save-outline" size={25} color={'black'}></Ionicons>
-            <Text
+          {img === false ? (
+            <TouchableOpacity
+              onPress={() => {
+                cb(false);
+              }}
               style={{
-                color: 'black',
-                fontWeight: 'bold',
-                fontFamily: 'Poppins-Regular',
-                fontStyle: 'normal',
-                fontWeight: '500',
-                fontSize: 15,
-                lineHeight: 26,
-                marginLeft: 10,
+                width: '62%',
+                backgroundColor: 'red',
+                borderRadius: 20,
+                height: 50,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 20,
+                marginVertical: 10,
+                flexDirection: 'row',
+                opacity: 0.7,
+                paddingHorizontal: 10,
               }}>
-              Save Img
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-Regular',
+                  fontStyle: 'normal',
+                  fontWeight: '500',
+                  fontSize: 15,
+                  lineHeight: 26,
+                  marginLeft: 10,
+                }}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                cb(false);
+                save(img === false ? null : img.view);
+                file(img === false ? null : img.path);
+              }}
+              style={{
+                width: '62%',
+                backgroundColor: '#FFBA33',
+                borderRadius: 20,
+                height: 50,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 20,
+                marginVertical: 10,
+                flexDirection: 'row',
+                paddingHorizontal: 10,
+              }}>
+              <Ionicons
+                name="save-outline"
+                size={25}
+                color={'black'}></Ionicons>
+              <Text
+                style={{
+                  color: 'black',
+                  fontWeight: 'bold',
+                  fontFamily: 'Poppins-Regular',
+                  fontStyle: 'normal',
+                  fontWeight: '500',
+                  fontSize: 15,
+                  lineHeight: 26,
+                  marginLeft: 10,
+                }}>
+                Save Img
+              </Text>
+            </TouchableOpacity>
+          )}
         </>
       </View>
     </View>

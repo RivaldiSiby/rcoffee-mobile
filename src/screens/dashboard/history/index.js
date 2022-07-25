@@ -91,8 +91,11 @@ const History = ({navigation}) => {
       //  delete transaction
       const data = {id: id};
       await deleteTransaction(data, token);
+      //  get data
       setLimit(6);
-
+      const result = await getHistory(limit, token);
+      setHistory(result.data.data);
+      setData(result.data.meta.totalData);
       dispatch(doneLoading());
     } catch (error) {
       console.log(error);
@@ -120,8 +123,11 @@ const History = ({navigation}) => {
       //  confirm transaction
       const data = {id: id};
       await doneTransaction(data, token);
+      // get data
       setLimit(6);
-
+      const result = await getHistory(limit, token);
+      setHistory(result.data.data);
+      setData(result.data.meta.totalData);
       dispatch(doneLoading());
     } catch (error) {
       console.log(error);
@@ -186,7 +192,9 @@ const History = ({navigation}) => {
                 horizontal={false}
                 nestedScrollEnabled={true}
                 onEndReached={() =>
-                  history.length !== data ? setLimit(limit + 6) : ''
+                  history.length !== data || history.length === 0
+                    ? setLimit(limit + 6)
+                    : ''
                 }
                 maxToRenderPerBatch={data}
                 renderItem={({item, idx}) => (
