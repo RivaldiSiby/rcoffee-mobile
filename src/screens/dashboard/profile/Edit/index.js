@@ -74,7 +74,11 @@ const EditProfile = ({navigation, route}) => {
 
   const openCam = async () => {
     try {
-      const camera = await launchCamera({saveToPhotos: true});
+      const camera = await launchCamera({
+        saveToPhotos: true,
+        maxWidth: 720,
+        maxHeight: 720,
+      });
       setView({
         view: camera.assets[0].uri,
         path: camera,

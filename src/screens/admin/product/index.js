@@ -58,7 +58,11 @@ const AddProduct = ({navigation, route}) => {
 
   const openCam = async () => {
     try {
-      const camera = await launchCamera({saveToPhotos: true});
+      const camera = await launchCamera({
+        saveToPhotos: true,
+        maxWidth: 720,
+        maxHeight: 720,
+      });
       setView({
         view: camera.assets[0].uri,
         path: camera,
@@ -129,7 +133,7 @@ const AddProduct = ({navigation, route}) => {
       if (error.request.status !== 400) {
         if (error.request.status === 401) {
           dispatch(failLogin());
-           navigation.replace('Login', {notif: 'authentication has expired'});
+          navigation.replace('Login', {notif: 'authentication has expired'});
         }
         //   const screen = ErrorsHandler(error.request.status);
         //   console.log(screen);

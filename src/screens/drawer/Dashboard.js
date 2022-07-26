@@ -16,6 +16,7 @@ import {LogoutHandler} from '../../modules/auth/LogoutHandler';
 import {doneLoading, isLoading} from '../../redux/actionCreator/loading';
 import Loading from '../component/loading';
 import {Link} from '@react-navigation/native';
+import {StackActions} from '@react-navigation/native';
 const Drawer = createDrawerNavigator();
 
 function DrawerDashboard({navigation}) {
@@ -41,7 +42,10 @@ function DrawerDashboard({navigation}) {
     dispatch(failLogin());
     dispatch(clearChart());
     dispatch(clearUser());
-    navigation.replace('Login', {notif: 'Logout Success'});
+    // navigation.replace('Login', {notif: 'Logout Success'});
+    navigation.dispatch(
+      StackActions.replace('Login', {notif: 'Logout Success'}),
+    );
   };
 
   return (

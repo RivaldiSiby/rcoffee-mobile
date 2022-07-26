@@ -77,7 +77,11 @@ const EditProduct = ({route, navigation}) => {
   // img picker
   const openCam = async () => {
     try {
-      const camera = await launchCamera({saveToPhotos: true});
+      const camera = await launchCamera({
+        saveToPhotos: true,
+        maxWidth: 720,
+        maxHeight: 720,
+      });
       setView({
         view: camera.assets[0].uri,
         path: camera,
@@ -157,6 +161,7 @@ const EditProduct = ({route, navigation}) => {
   };
   const deleteHandler = async () => {
     try {
+      dispatch(isLoading());
       // cek token
       const token = await GenerateToken(login);
       let newToken = login;
@@ -190,7 +195,7 @@ const EditProduct = ({route, navigation}) => {
 
   return (
     <>
-      {Load === true && products.length === 0 ? (
+      {Load === true || products.length === 0 ? (
         <Loading />
       ) : (
         <>

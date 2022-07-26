@@ -126,7 +126,11 @@ const AddPromo = ({navigation, route}) => {
   }, []);
   const openCam = async () => {
     try {
-      const camera = await launchCamera({saveToPhotos: true});
+      const camera = await launchCamera({
+        saveToPhotos: true,
+        maxWidth: 720,
+        maxHeight: 720,
+      });
       setView({
         view: camera.assets[0].uri,
         path: camera,
@@ -184,13 +188,15 @@ const AddPromo = ({navigation, route}) => {
       newToken['tokenkey'] = token;
       dispatch(successLogin(newToken));
       // add product
+      console.log(FormPromo);
       await addPromo(token, FormPromo);
       navigation.replace('Home', {
         screen: 'Home',
         params: {notif: 'Promo added successfully'},
       });
     } catch (error) {
-      console.log(error);
+      console.log(typeof error);
+      console.log(error.message);
       dispatch(doneLoading());
       setIsError(true);
       setMsg(error.response.data.message);
