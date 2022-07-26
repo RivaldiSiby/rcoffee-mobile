@@ -32,6 +32,7 @@ import {
   sendLocalNotification,
   sendScheduleNotification,
 } from '../../../helper/notifications';
+import {StackActions} from '@react-navigation/native';
 
 const Login = ({navigation, route}) => {
   const {notif} = route.params;
@@ -74,14 +75,17 @@ const Login = ({navigation, route}) => {
           );
         }
 
-        navigation.replace('Home', {
-          screen: 'Home',
-          params: {notif: 'Login Success'},
-        });
+        navigation.dispatch(
+          StackActions.replace('Home', {
+            screen: 'Home',
+            params: {notif: 'Login Success'},
+          }),
+        );
       }
 
       dispatch(doneLoading());
     } catch (error) {
+      console.log(error);
       setVisible(false);
       dispatch(doneLoading());
       console.log(error);
@@ -114,7 +118,7 @@ const Login = ({navigation, route}) => {
           <View>
             <View style={styles.sectionForm}>
               <TextInput
-                onChangeText={Email => setEmail(Email)}
+                onChangeText={text => setEmail(text)}
                 value={Email}
                 placeholder="Enter your email adress"
                 placeholderTextColor={'white'}
@@ -123,7 +127,7 @@ const Login = ({navigation, route}) => {
             <View style={styles.sectionForm}>
               <View style={styles.inputPass}>
                 <TextInput
-                  onChangeText={Pass => setPass(Pass)}
+                  onChangeText={text => setPass(text)}
                   value={Pass}
                   secureTextEntry={isShow === false ? true : false}
                   placeholderTextColor={'white'}

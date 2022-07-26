@@ -46,6 +46,7 @@ import AddPromo from './admin/promo';
 import EditProduct from './dashboard/detail/edit';
 import Report from './admin/report';
 import {onDelete} from '../redux/actionCreator/delete';
+import Network404 from './notfound/network';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -687,6 +688,42 @@ function Router() {
                     color: 'black',
                   }}>
                   Orders
+                </Text>
+              </View>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="Network404"
+          component={Network404}
+          options={{
+            headerTitle: '',
+            titleStyle: {
+              color: 'red',
+              textAlign: 'center',
+            },
+            headerStyle: {
+              backgroundColor: '#F2F2F2',
+            },
+            headerRight: () => (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '90%',
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 18,
+                    fontStyle: 'normal',
+                    fontWeight: '700',
+                    lineHeight: 27,
+                    color: 'black',
+                  }}>
+                  Network Error
                 </Text>
               </View>
             ),

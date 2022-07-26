@@ -147,7 +147,7 @@ const EditProduct = ({route, navigation}) => {
         if (error.request.status === 401) {
           dispatch(failLogin());
 
-          navigation.replace('Login');
+          navigation.replace('Login', {notif: 'authentication has expired'});
         }
         //   const screen = ErrorsHandler(error.request.status);
         //   console.log(screen);
@@ -176,7 +176,7 @@ const EditProduct = ({route, navigation}) => {
       if (error.request.status !== 400) {
         if (error.request.status === 401) {
           dispatch(failLogin());
-          navigation.replace('Login');
+          navigation.replace('Login', {notif: 'authentication has expired'});
         }
         //   const screen = ErrorsHandler(error.request.status);
         //   console.log(screen);

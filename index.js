@@ -12,18 +12,20 @@ import {Provider as ReduxProvider} from 'react-redux';
 import {store, persistor} from './src/redux/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import PushNotification from 'react-native-push-notification';
+import {sendLocalNotification} from './src/helper/notifications';
 
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 // configuration
 PushNotification.configure({
   // (optional) Called when Token is generated (iOS and Android)
   onRegister: function (token) {
-    console.log('TOKEN:', token);
+    console.log('TOKEN:', token.token);
   },
 
   // (required) Called when a remote is received or opened, or local notification is opened
   onNotification: function (notification) {
     console.log('NOTIFICATION:', notification);
+    sendLocalNotification(notification.title, notification.message);
 
     // process the notification
 
@@ -55,7 +57,7 @@ PushNotification.configure({
    * - if you are not using remote notification or do not have Firebase installed, use this:
    *     requestPermissions: Platform.OS === 'ios'
    */
-  requestPermissions: Platform.OS === 'ios',
+  requestPermissions: true,
 });
 // chanel
 PushNotification.createChannel(

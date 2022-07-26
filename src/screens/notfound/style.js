@@ -31,7 +31,7 @@ export default StyleSheet.create({
   btnRegis: {
     marginVertical: 50,
     marginTop: 100,
-    backgroundColor: '#6A4029',
+    backgroundColor: '#FFBA33',
     borderRadius: 20,
     height: 70,
     display: 'flex',
@@ -42,7 +42,7 @@ export default StyleSheet.create({
     marginHorizontal: '10%',
   },
   textBtnRegis: {
-    color: 'white',
+    color: 'black',
     fontWeight: 'bold',
     fontFamily: 'Poppins-Regular',
     fontStyle: 'normal',
