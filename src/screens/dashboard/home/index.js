@@ -229,15 +229,18 @@ const Home = ({navigation, route}) => {
           )}
           <ScrollView style={styles.containerMain}>
             <Text style={styles.headerText}>A good coffee is a good day</Text>
-            <View style={styles.searchInput}>
-              <TouchableOpacity>
-                <Ionicons name="search-outline" size={18} color="#6A4029" />
-              </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.searchInput}
+              onPress={() =>
+                navigation.navigate('Product', {categoryKey: 'search'})
+              }>
+              <Ionicons name="search-outline" size={18} color="#6A4029" />
               <TextInput
+                editable={false}
                 style={styles.inputBox}
                 placeholder="Search"
                 placeholderTextColor={'rgba(0, 0, 0, 0.5)'}></TextInput>
-            </View>
+            </TouchableOpacity>
             <View>
               <ScrollView horizontal vertical={false} style={styles.menuBar}>
                 <TouchableOpacity

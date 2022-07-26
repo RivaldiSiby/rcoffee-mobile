@@ -49,7 +49,14 @@ const Product = ({route, navigation}) => {
     const productsHandler = async () => {
       try {
         // cek category
-
+        if (categoryValue === 'search') {
+          setFavorite(false);
+          setPromo(false);
+          setCoffee(false);
+          setNoncoffee(false);
+          setFood(false);
+          setAll(true);
+        }
         if (categoryValue === 'all' || search !== '') {
           setCategoryValue('all');
           setFavorite(false);
@@ -530,15 +537,35 @@ const Product = ({route, navigation}) => {
               </>
             ) : (
               <>
-                <View style={{alignItems: 'center', marginTop: 20}}>
-                  <Text style={{color: 'black', fontWeight: '900'}}>
-                    Products Not Found
-                  </Text>
-                  <Image
-                    style={{width: '70%', height: 250}}
-                    source={require('../../../assets/img/pagenotfound.png')}
-                  />
-                </View>
+                {categoryValue === 'search' ? (
+                  <>
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        marginTop: 20,
+                      }}>
+                      <Text style={styles.menuText}>
+                        search for products by product name
+                      </Text>
+                      <Image
+                        style={{width: '70%', height: 250, marginTop: 20}}
+                        source={require('../../../assets/img/dashboard/search.png')}
+                      />
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <View style={{alignItems: 'center', marginTop: 20}}>
+                      <Text style={{color: 'black', fontWeight: '900'}}>
+                        Products Not Found
+                      </Text>
+                      <Image
+                        style={{width: '70%', height: 250}}
+                        source={require('../../../assets/img/pagenotfound.png')}
+                      />
+                    </View>
+                  </>
+                )}
               </>
             )}
           </View>

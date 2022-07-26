@@ -24,6 +24,9 @@ import {editProduct} from '../../../../modules/products/editProduct';
 import {editStock} from '../../../../modules/products/editStock';
 import {GenerateToken} from '../../../../modules/auth/checkAuth';
 import {successLogin} from '../../../../redux/actionCreator/login';
+import {deleteProduct} from '../../../../modules/products/deleteProduct';
+import {onDelete} from '../../../../redux/actionCreator/delete';
+import ModalConfirm from '../../../component/modals/ModalConfirm';
 
 const EditProduct = ({route, navigation}) => {
   // data
@@ -35,6 +38,7 @@ const EditProduct = ({route, navigation}) => {
   const product = useSelector(state => state.product.product);
   const chart = useSelector(state => state.chart);
   const Load = useSelector(state => state.loading.status);
+  const isDelete = useSelector(state => state.delete.status);
   const [visible, setVisible] = useState(false);
   const [Name, setName] = useState(product.name);
   const [Price, setPrice] = useState(product.price);
@@ -130,7 +134,10 @@ const EditProduct = ({route, navigation}) => {
         item.size === product.size ? dispatch(addProduct(item)) : '',
       );
       dispatch(doneLoading());
-      navigation.replace('Detail');
+      navigation.replace('Home', {
+        screen: 'Home',
+        params: {notif: 'Product updated successfully'},
+      });
     } catch (error) {
       console.log(error);
       dispatch(doneLoading());
@@ -139,16 +146,46 @@ const EditProduct = ({route, navigation}) => {
       if (error.request.status !== 400) {
         if (error.request.status === 401) {
           dispatch(failLogin());
-          navigation.replace('Home', {
-            screen: 'Home',
-            params: {notif: 'Product updated successfully'},
-          });
+
+          navigation.replace('Login');
         }
         //   const screen = ErrorsHandler(error.request.status);
         //   console.log(screen);
         //   navigation.navigate(screen);
       }
     }
+  };
+  const deleteHandler = async () => {
+    try {
+      // cek token
+      const token = await GenerateToken(login);
+      let newToken = login;
+      newToken['tokenkey'] = token;
+      dispatch(successLogin(newToken));
+      // delete handler
+      await deleteProduct(token, product.id);
+      navigation.replace('Home', {
+        screen: 'Home',
+        params: {notif: 'Product deleted successfully'},
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch(doneLoading());
+      setIsError(true);
+      setMsg(error.response.data.message);
+      if (error.request.status !== 400) {
+        if (error.request.status === 401) {
+          dispatch(failLogin());
+          navigation.replace('Login');
+        }
+        //   const screen = ErrorsHandler(error.request.status);
+        //   console.log(screen);
+        //   navigation.navigate(screen);
+      }
+    }
+  };
+  const setDelete = isdelete => {
+    dispatch(onDelete(isdelete));
   };
 
   return (
@@ -177,6 +214,16 @@ const EditProduct = ({route, navigation}) => {
             animationOut={'zoomOut'}
             isVisible={isError}>
             <ModalFail msg={Msg} cb={setIsError} />
+          </ReactNativeModal>
+          <ReactNativeModal
+            animationIn={'zoomIn'}
+            animationOut={'zoomOut'}
+            isVisible={isDelete}>
+            <ModalConfirm
+              handler={deleteHandler}
+              msg={'To delete this product'}
+              cb={setDelete}
+            />
           </ReactNativeModal>
           <ScrollView style={styles.containerMain}>
             <TouchableOpacity

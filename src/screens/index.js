@@ -7,6 +7,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -28,7 +29,7 @@ import Cart from './dashboard/cart';
 import {Link} from '@react-navigation/native';
 import Coupon from './dashboard/coupon';
 import Order404 from './notfound/order';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Delivery from './dashboard/delivery';
 import Payment from './dashboard/payment';
 import Profile from './dashboard/profile';
@@ -44,6 +45,7 @@ import AddProduct from './admin/product';
 import AddPromo from './admin/promo';
 import EditProduct from './dashboard/detail/edit';
 import Report from './admin/report';
+import {onDelete} from '../redux/actionCreator/delete';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -142,6 +144,7 @@ function HomeNav({navigation}) {
 function Router() {
   const cart = useSelector(state => state.chart.chart);
   const user = useSelector(state => state.user.user);
+  const dispatch = useDispatch();
   return (
     <>
       <StatusBar barStyle={'light-content'} />
@@ -784,8 +787,8 @@ function Router() {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <Link
-                  to={'/EditProduct'}
+                <Pressable
+                  onPress={() => dispatch(onDelete(true))}
                   style={{
                     width: 35,
                     height: 35,
@@ -795,13 +798,15 @@ function Router() {
                     padding: 10,
                     backgroundColor: '#6A4029',
                   }}>
-                  <Ionicons
-                    style={{marginRight: 20}}
-                    name="trash-outline"
-                    size={15}
-                    color="white"
-                  />
-                </Link>
+                  <Text>
+                    <Ionicons
+                      style={{marginRight: 20}}
+                      name="trash-outline"
+                      size={15}
+                      color="white"
+                    />
+                  </Text>
+                </Pressable>
               </View>
             ),
           }}

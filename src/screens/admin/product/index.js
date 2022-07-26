@@ -28,6 +28,7 @@ import ModalFail from '../../component/modals/ModalFail';
 import {addProduct} from '../../../modules/products/addProduct';
 import {addStock} from '../../../modules/products/addStock';
 import {sendLocalNotification} from '../../../helper/notifications';
+import {deleteProduct} from '../../../modules/products/deleteProduct';
 
 const AddProduct = ({navigation, route}) => {
   const login = useSelector(state => state.login.auth);
@@ -164,6 +165,7 @@ const AddProduct = ({navigation, route}) => {
             isVisible={isError}>
             <ModalFail msg={Msg} cb={setIsError} />
           </ReactNativeModal>
+
           <ScrollView style={styles.containerMain}>
             <View style={styles.boxHeader}>
               {img === null ? (
