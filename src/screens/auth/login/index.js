@@ -40,6 +40,7 @@ const Login = ({navigation, route}) => {
   const dispatch = useDispatch();
   const login = useSelector(state => state.login.status);
   const Load = useSelector(state => state.loading.status);
+  const device = useSelector(state => state.device.device);
   const [Email, setEmail] = useState('');
   const [Pass, setPass] = useState('');
   const [visible, setVisible] = useState(false);
@@ -48,6 +49,7 @@ const Login = ({navigation, route}) => {
 
   // cek user login
   useEffect(() => {
+    console.log(device);
     if (login === true) {
       navigation.replace('Home');
     }
@@ -58,7 +60,13 @@ const Login = ({navigation, route}) => {
   const LoginUserHandler = async () => {
     try {
       dispatch(isLoading());
-      const result = await LoginHandler(Email, Pass);
+      const userData = {
+        email: Email,
+        password: Pass,
+        device: device.os,
+        notification_token: device.token,
+      };
+      const result = await LoginHandler(userData);
       const authData = {
         tokenkey: result.data.data.token,
         refreshkey: result.data.data.refreshToken,

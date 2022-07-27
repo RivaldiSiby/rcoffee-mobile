@@ -5,10 +5,12 @@ import user from './user';
 import loading from './loading';
 import ondelete from './delete';
 import product from './product';
+import device from './device';
 
 const reducers = combineReducers({
   login: login,
   chart: chart,
+  device: device,
   user: user,
   loading: loading,
   delete: ondelete,
