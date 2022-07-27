@@ -36,33 +36,33 @@ $ npm install
 API_URL="BACKEND API URL"
 ```
 
-4. Starting development server application
+4. Running Metro
 
 ```sh
 $ npx react-native start
 ```
 
-5. Run App to device or emulator
+5. Run build App to device or emulator
 
 ```sh
 $ npx react-native run-android
 ```
 
-6. Rcoffee Mobile App is Running in http://localhost:8081/
+6. Rcoffee Mobile App is Running
 
 ### Preview
 
-<div style="display:flex, flex-direction: column" >
+<div style="display:flex, flex-direction: row" >
 
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-26-11-20-34-18_f47991b8b6b73cefda44158c83acd552_sdppur.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-27-00-55-54-70_f47991b8b6b73cefda44158c83acd552_e8ygwo.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-26-11-20-40-14_f47991b8b6b73cefda44158c83acd552_e8ubho.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860730/screen%20shot/Screenshot_2022-07-25-14-05-02-95_f47991b8b6b73cefda44158c83acd552_ihffh2.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-26-11-22-21-66_f47991b8b6b73cefda44158c83acd552_iqlrfc.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860728/screen%20shot/Screenshot_2022-07-26-11-22-01-88_f47991b8b6b73cefda44158c83acd552_l5qprg.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860728/screen%20shot/Screenshot_2022-07-26-11-23-03-78_f47991b8b6b73cefda44158c83acd552_nsvi4v.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860727/screen%20shot/Screenshot_2022-07-26-11-21-46-23_f47991b8b6b73cefda44158c83acd552_atsxqf.jpg" style="width: 600px">
-<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860727/screen%20shot/Screenshot_2022-07-26-11-23-14-81_f47991b8b6b73cefda44158c83acd552_d9utvs.jpg" style="width: 600px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-26-11-20-34-18_f47991b8b6b73cefda44158c83acd552_sdppur.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-27-00-55-54-70_f47991b8b6b73cefda44158c83acd552_e8ygwo.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-26-11-20-40-14_f47991b8b6b73cefda44158c83acd552_e8ubho.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860730/screen%20shot/Screenshot_2022-07-25-14-05-02-95_f47991b8b6b73cefda44158c83acd552_ihffh2.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860729/screen%20shot/Screenshot_2022-07-26-11-22-21-66_f47991b8b6b73cefda44158c83acd552_iqlrfc.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860728/screen%20shot/Screenshot_2022-07-26-11-22-01-88_f47991b8b6b73cefda44158c83acd552_l5qprg.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860728/screen%20shot/Screenshot_2022-07-26-11-23-03-78_f47991b8b6b73cefda44158c83acd552_nsvi4v.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860727/screen%20shot/Screenshot_2022-07-26-11-21-46-23_f47991b8b6b73cefda44158c83acd552_atsxqf.jpg" style="width: 200px">
+<img src="https://res.cloudinary.com/rivaldev/image/upload/v1658860727/screen%20shot/Screenshot_2022-07-26-11-23-14-81_f47991b8b6b73cefda44158c83acd552_d9utvs.jpg" style="width: 200px">
 
 </div>
 
